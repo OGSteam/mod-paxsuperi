@@ -1,0 +1,5 @@
+
+*.xml
+php-cs-fixer.phar
+.php-cs-fixer.dist.php
+php-cs.bat
