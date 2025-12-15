@@ -43,6 +43,7 @@ include MOD_ROOT_CORE_CLASS . 'ClassUniverse.php';
 include MOD_ROOT_CORE_OGSPY . 'Pax_sql_db.php';
 include MOD_ROOT_CORE_OGSPY . 'Pax_Model_Abstract.php';
 include MOD_ROOT_MODEL . 'Pax_Player_Model.php';
+include MOD_ROOT_MODEL . 'Pax_Alliance_Model.php';
 
 
 

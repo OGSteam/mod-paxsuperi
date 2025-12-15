@@ -57,7 +57,7 @@ class Constant
     {
         $tEndpoint   = [];
         $tEndpoint[] = 'CST_PLAYERS';
-     //   $tEndpoint[] = 'CST_ALLIANCES';
+        $tEndpoint[] = 'CST_ALLIANCES';
      //   $tEndpoint[] = 'CST_UNIVERSE';
      //   $tEndpoint[] = 'CST_PLAYERS_RANK_POINTS';
      //   $tEndpoint[] = 'CST_PLAYERS_RANK_ECO';

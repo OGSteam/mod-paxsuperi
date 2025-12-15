@@ -54,46 +54,21 @@ class ClassPlayers extends AbstractClass
             $dataPlayer['ally_id'] = (string)(int)$playerXml[0]['alliance'];
             $dataPlayer['datadate'] = $datadate;
 
-
             $dataPlayers[] = $dataPlayer;
         }
 
-        // Sauvegarde d'un seul joueur
-        $data = [
-            'id' => 123,
-            'name' => 'Joueur1',
-            'ally_id' => 456,
-            'datadate' => time(),
-        ];
+
         $model = new Pax_Player_Model();
-        $model->save($data);
+        if ($model->saveMultiple($dataPlayers)) {
+            $this->response->setMessage('Enregistrement effectué  ' . $this->endpoint);
+            return $this->response;
+        }
 
 
+        // si erreur 
+        $this->response->setError('Une erreur est survenue ' . $this->endpoint);
+        $this->response->setMessage('Une erreur est survenue ' . $this->endpoint);
 
-        // Sauvegarde de plusieurs joueurs
-        $datas = [
-            [
-                'id' => 123,
-                'name' => 'Joueur1',
-                'ally_id' => 456,
-                'datadate' => time(),
-            ],
-            [
-                'id' => 789,
-                'name' => 'Joueur2',
-                'ally_id' => 101,
-                'datadate' => time(),
-            ],
-        ];
-        $model->saveMultiple( $dataPlayers);
-
-        //TODO
-        //  $playersXml = $xmlManager->getLocalXml($this->endpoint);
-        //  echo '<pre>';
-        //   var_dump($playersXml);
-
-        // exit();
-        $this->response->setMessage('TODO  ' . $this->endpoint);
         return $this->response;
     }
 }
