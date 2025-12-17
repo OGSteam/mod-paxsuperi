@@ -67,14 +67,14 @@ class Constant
         $tEndpoint[] = 'CST_PLAYERS_RANK_MILITARY_DESTROYED';
         $tEndpoint[] = 'CST_PLAYERS_RANK_MILITARY_LOST';
         $tEndpoint[] = 'CST_PLAYERS_RANK_MILITARY_HONNOR';
-        //   $tEndpoint[] = 'CST_ALLIANCES_RANK_POINTS';
-        //   $tEndpoint[] = 'CST_ALLIANCES_RANK_ECO';
-        //   $tEndpoint[] = 'CST_ALLIANCES_RANK_TECHNOLOGY';
-        //   $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY';
-        //   $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY_BUILT';
-        //   $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY_DESTROYED';
-        //   $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY_LOST';
-        //   $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY_HONNOR';
+           $tEndpoint[] = 'CST_ALLIANCES_RANK_POINTS';
+           $tEndpoint[] = 'CST_ALLIANCES_RANK_ECO';
+           $tEndpoint[] = 'CST_ALLIANCES_RANK_TECHNOLOGY';
+           $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY';
+           $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY_BUILT';
+           $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY_DESTROYED';
+           $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY_LOST';
+           $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY_HONNOR';
         // $tEndpoint[] = 'CST_SERVERDATA';
         // $tEndpoint[] = 'CST_SERVERS';
 

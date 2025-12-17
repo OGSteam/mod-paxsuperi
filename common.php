@@ -45,7 +45,7 @@ include MOD_ROOT_CORE_OGSPY . 'Pax_Model_Abstract.php';
 include MOD_ROOT_MODEL . 'Pax_Player_Model.php';
 include MOD_ROOT_MODEL . 'Pax_Alliance_Model.php';
 include MOD_ROOT_MODEL . 'Pax_Rankings_Player_Model.php';
-
+include MOD_ROOT_MODEL . 'Pax_Rankings_Ally_Model.php';
 
 
 
@@ -62,4 +62,35 @@ function pax_mod_get_option($param)
 function pax_mod_set_option($param, $value)
 {
     return mod_set_option($param, $value, 'paxsuperi');
+}
+
+/**
+ * formatage_timestamp_for_rank
+ *
+ * change l'horaire du classement avec un horaire compatible pour un affichage dans ogspy
+ *
+ * @param int $time timestamp
+ * @return int
+ */
+function formatage_timestamp_for_rank($time)
+{
+    /// il faut garder le format ogspy ( toutes les 8 heeures ... ) )
+    $temp = getdate($time);
+
+    // on format la date
+    $temp['seconds'] = 0;
+    $temp['minutes'] = 0;
+    if ($temp['hours'] >= 0 && $temp['hours'] < 8) {
+
+        $temp['hours'] = 0;
+    }
+    if ($temp['hours'] >= 8 && $temp['hours'] < 16) {
+        $temp['hours'] = 8;
+    }
+    if ($temp['hours'] >= 16 && $temp['hours'] < 24) {
+        $temp['hours'] = 16;
+    }
+
+    $time = mktime($temp['hours'], $temp['minutes'], $temp['seconds'], $temp['mon'], $temp['mday'], $temp['year']);
+    return $time;
 }

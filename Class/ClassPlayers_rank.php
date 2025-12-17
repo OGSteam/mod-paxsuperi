@@ -22,7 +22,7 @@ abstract class ClassPlayers_rank extends AbstractClass
     {
         parent::__construct($endpoint);
         $this->model = new Pax_Rankings_Player_Model();
-           $this->isShips = false;
+        $this->isShips = false;
     }
 
     public function traitement(): StepperResponse
@@ -37,7 +37,7 @@ abstract class ClassPlayers_rank extends AbstractClass
         $playersRankString = $xmlManager->getLocalXml($this->endpoint);
         $playersRankXml = simplexml_load_string($playersRankString);
         // date
-        $datadate = (int)$playersRankXml->attributes()->timestamp;
+        $datadate = formatage_timestamp_for_rank((int)$playersRankXml->attributes()->timestamp);
 
         //<player position="5" id="101706" score="1414116972"/>
 
