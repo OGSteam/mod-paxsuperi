@@ -13,6 +13,6 @@ class Pax_Alliance_Model extends Pax_Model_Abstract
 {
     protected string  $table = TABLE_GAME_ALLY;
     protected array $allowedFields = ['id', 'name', 'tag', 'class', 'datadate'];
-    protected array $requiredFields = ['id']; // pas d autoincrmente et ally_id ne peut etre null
+    protected array $requiredFields = ['id', 'datadate'];
 
 }
