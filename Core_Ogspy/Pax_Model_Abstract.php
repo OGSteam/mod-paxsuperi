@@ -109,10 +109,10 @@ abstract class Pax_Model_Abstract extends Model_Abstract
     {
 
         $values = [];
-        $currentAllowedFields = $key;
+        $currentAllowedFields =   array_intersect($key, $this->allowedFields); // le meilleur des deux mondes currentAllowedFields
         foreach ($datas as $data) {
             $dataValues = [];
-            foreach ($this->allowedFields as $field) {
+            foreach ($currentAllowedFields as $field) {
                 if (array_key_exists($field, $data)) {
 
                     
