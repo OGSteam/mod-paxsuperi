@@ -16,10 +16,17 @@ include_once 'mod/paxsuperi/common.php';
 
 require_once 'views/page_header.php';
 include MOD_ROOT_VUE . 'page_header_mod.php';
+include MOD_ROOT_VUE . 'page_menu_mod.php';
 
 switch ($pub_subaction ?? null) {
-    case 'xxx':
-        include MOD_ROOT_VUE . 'xxxx.php';
+    case 'admin':
+        include MOD_ROOT_VUE . 'admin.php';
+        break;
+    case 'state':
+        include MOD_ROOT_VUE . 'state.php';
+        break;
+    case 'paxsuperi':
+        include MOD_ROOT_VUE . 'index.php';
         break;
 
     default:
