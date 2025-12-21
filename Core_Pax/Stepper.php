@@ -20,8 +20,11 @@ if (preg_match('#mod#', getcwd())) {
 include 'common.php';
 include_once 'mod/paxsuperi/common.php';
 
+$setting = Setting::getInstance();
 $state           = loadStepperState();
 $stepperResponse = new StepperResponse();
+
+
 
 // peut on commencer
 if (! stepperCanStart($state)) {
@@ -48,11 +51,14 @@ runCurrentStep($state, $stepperResponse);
 
 function loadStepperState(): array
 {
+    global $setting;
+
     return [
-        'stepperRunning'      => (int) pax_mod_get_option('stepperRunning'),
-        'currentStep'         => (int) pax_mod_get_option('currentStep'),
-        'lastRunning'         => (int) pax_mod_get_option('lastRunning'),
-        'lastRunningSecurity' => (int) pax_mod_get_option('lastRunningSecurity'),
+        'stepperRunning'      => $setting->stepperRunning,
+        'lastRunning'         => $setting->lastRunning,
+        'lastRunningSecurity' => $setting->lastRunningSecurity,
+        'currentStep' => $setting->currentStep,
+
         'total'               => count(Constant::getEndpoint()) * 2 - 1, // download + traitement
     ];
 }
@@ -67,13 +73,15 @@ function stepperCanStart(array $state): bool
 
 function startStepper(): void
 {
-    pax_mod_set_option('lastRunning', time());
+    global $setting;
+
+    $setting->lastRunning = time();
     $state['lastRunning'] = time();
 
-    pax_mod_set_option('currentStep', 1);
+    $setting->currentStep = 1;
     $state['currentStep'] = 1;
 
-    pax_mod_set_option('stepperRunning', 1);
+    $setting->stepperRunning = 1;
     $state['stepperRunning'] = 1;
 
     $state['total'] = count(Constant::getEndpoint()) * 2 - 1;
@@ -81,9 +89,10 @@ function startStepper(): void
 
 function resetStepper(): void
 {
-    pax_mod_set_option('currentStep', 0);
+    global $setting;
+    $setting->currentStep = 0;
     $state['currentStep'] = 0;
-    pax_mod_set_option('stepperRunning', 0);
+    $setting->stepperRunning = 0;
     $state['stepperRunning'] = 0;
 }
 
@@ -111,6 +120,8 @@ function endpointToClass(string $endpoint): string
 
 function runCurrentStep(array $state, StepperResponse $resp): void
 {
+      global $setting;
+
     $steps   = buildStepList();
     $current = $state['currentStep'];
 
@@ -122,7 +133,7 @@ function runCurrentStep(array $state, StepperResponse $resp): void
 
     $resp->setProgress($current, $state['total']);
 
-    pax_mod_set_option('currentStep', $current + 1);
+    $setting->currentStep = $current + 1;
     // todo indiqué que la fin est arrivé  di total atteint step et enregistré dans bdd
 
     $step = $steps[$current];

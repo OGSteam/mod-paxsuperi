@@ -15,11 +15,13 @@ if (! defined('IN_SPYOGAME')) {
 
 class AbstractClass
 {
+    protected Setting $setting ;
     protected StepperResponse $response;
     protected string $endpoint;
 
     public function __construct(string $endpoint)
     {
+        $this->setting = Setting::getInstance();
         $this->response = new StepperResponse();
         $this->endpoint = $endpoint;
     }
@@ -28,9 +30,9 @@ class AbstractClass
     {
         // téléchargement du fichier xml correspondant au endpoint
         // Initialisation
-        $pays          = pax_mod_get_option('pays');
-        $uni           = pax_mod_get_option('uni');
-        $temporisation = (int) pax_mod_get_option('temporisation');
+        $pays          =  $this->setting->pays;
+        $uni           = (int)$this->setting->uni; 
+        $temporisation = (int) $this->setting->temporisation;  
 
         $xmlManager = new XmlManager($pays, $uni);
         $endpoints  = Constant::getEndpoint();
@@ -63,8 +65,9 @@ class AbstractClass
 
         protected function preTraitement(): StepperResponse|bool
     {
-        $pays          = pax_mod_get_option('pays');
-        $uni           = pax_mod_get_option('uni');
+        $pays          =  $this->setting->pays;
+        $uni           = (int)$this->setting->uni; 
+
 
         $xmlManager = new XmlManager($pays, $uni);
         $endpoints  = Constant::getEndpoint();

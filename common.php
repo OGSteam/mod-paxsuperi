@@ -32,6 +32,7 @@ include MOD_ROOT_CORE_PAX . 'Constant.php';
 include MOD_ROOT_CORE_PAX . 'UrlBuilder.php';
 include MOD_ROOT_CORE_PAX . 'XmlManager.php';
 include MOD_ROOT_CORE_PAX . 'StepperResponse.php';
+include MOD_ROOT_CORE_PAX . 'Setting.php';
 
 include MOD_ROOT_CORE_CLASS . 'AbstractClass.php';
 include MOD_ROOT_CORE_CLASS . 'ClassPlayers.php';
@@ -55,14 +56,7 @@ include MOD_ROOT_MODEL . 'Pax_Rankings_Ally_Model.php';
 // include MOD_ROOT_CORE_OGSPY . 'Pax_mysql.php';
 
 // fn util bypass ogspy
-function pax_mod_get_option($param)
-{
-    return mod_get_option($param, 'paxsuperi');
-}
-function pax_mod_set_option($param, $value)
-{
-    return mod_set_option($param, $value, 'paxsuperi');
-}
+
 
 /**
  * formatage_timestamp_for_rank

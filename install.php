@@ -17,6 +17,9 @@ if (! defined('IN_SPYOGAME')) {
 
 global $table_prefix;
 
+include_once 'mod/paxsuperi/common.php';
+
+
 $install_ogspy = false;
 $is_ok         = false;
 $mod_folder    = 'paxsuperi';
@@ -24,13 +27,10 @@ $root          = 'paxsuperi';
 $is_ok         = install_mod($mod_folder);
 
 if ($is_ok) {
-    // si besoin de créer des tables, a faire ici
-    // Options par défaut.
-    mod_set_option('pays', 'fr');
-    mod_set_option('uni', '198');
-    mod_set_option('temporisation', '3');
-    mod_set_option('stepperRunning', '0');
-    mod_set_option('currentStep', '0');
-    mod_set_option('lastRunning', '0');
-    mod_set_option('lastRunningSecurity', '60');
+    $setting = new Setting();
+
+    $setting->resetCurrentUse();
+    $setting->pays  = 'fr';
+    $setting->uni =  '198';
+    $setting->temporisation = '1';
 }

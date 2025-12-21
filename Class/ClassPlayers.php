@@ -22,9 +22,8 @@ class ClassPlayers extends AbstractClass
         if ($this->preTraitement() !== true) {
             return $this->response;
         }
-        $pays          = pax_mod_get_option('pays');
-        $uni           = pax_mod_get_option('uni');
-        $temporisation = (int) pax_mod_get_option('temporisation');
+        $pays          =  $this->setting->pays;
+        $uni           = (int)$this->setting->uni; 
 
         $xmlManager = new XmlManager($pays, $uni);
         $playersXmlString = $xmlManager->getLocalXml($this->endpoint);

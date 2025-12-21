@@ -27,8 +27,9 @@ abstract class ClassAlliances_rank extends AbstractClass
         if ($this->preTraitement() !== true) {
             return $this->response;
         }
-        $pays          = pax_mod_get_option('pays');
-        $uni           = pax_mod_get_option('uni');
+        $pays          =  $this->setting->pays;
+        $uni           = (int)$this->setting->uni; 
+
 
         $xmlManager = new XmlManager($pays, $uni);
         $allyRankString = $xmlManager->getLocalXml($this->endpoint);
