@@ -18,6 +18,26 @@ require_once 'views/page_header.php';
 include MOD_ROOT_VUE . 'page_header_mod.php';
 include MOD_ROOT_VUE . 'page_menu_mod.php';
 
+$setting = Setting::getInstance();
+
+/// formulaire possible
+if (isset($pub_admin) && $pub_admin == "1") {
+    //univers
+    if (isset($pub_uni)) {
+        $setting->uni = (int) ($pub_uni);
+    }
+    //univers
+    if (isset($pub_pays) && strlen($pub_pays) < 4) {
+        $setting->pays = $pub_pays;
+    }
+    if (isset($pub_temporisation)) {
+        $pub_temporisation = (int)$pub_temporisation > 3 ? 3 : (int)$pub_temporisation; // inf a 3 s
+        $pub_temporisation = (int)$pub_temporisation < 1 ? 1 : (int)$pub_temporisation; // sup a 1 s
+        $setting->temporisation = (int)$pub_temporisation;
+    }
+}
+
+
 switch ($pub_subaction ?? null) {
     case 'admin':
         include MOD_ROOT_VUE . 'admin.php';
