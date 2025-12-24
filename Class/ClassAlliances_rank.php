@@ -16,10 +16,13 @@ if (! defined('IN_SPYOGAME')) {
 abstract class ClassAlliances_rank extends AbstractClass
 {
     protected  $model;
+    protected  $modelPlayer;
+
     public function __construct(string $endpoint)
     {
         parent::__construct($endpoint);
         $this->model = new Pax_Rankings_Ally_Model();
+        $this->modelPlayer = new Pax_Player_Model();
     }
 
     public function traitement(): StepperResponse
@@ -28,17 +31,19 @@ abstract class ClassAlliances_rank extends AbstractClass
             return $this->response;
         }
         $pays          =  $this->setting->pays;
-        $uni           = (int)$this->setting->uni; 
+        $uni           = (int)$this->setting->uni;
+
+        $allyPlayerCount = $this->modelPlayer->get_player_count_by_ally();
 
 
         $xmlManager = new XmlManager($pays, $uni);
         $allyRankString = $xmlManager->getLocalXml($this->endpoint);
         $allysRankXml = simplexml_load_string($allyRankString);
         // date
-          $datadate = formatage_timestamp_for_rank((int)$allysRankXml->attributes()->timestamp);
+        $datadate = formatage_timestamp_for_rank((int)$allysRankXml->attributes()->timestamp);
 
-
-        //<player position="5" id="101706" score="1414116972"/>
+        //tableau Ally / count(player)
+        $allyPlayerCount = $this->modelPlayer->get_player_count_by_ally();
 
         $dataAllysRank = array();
         foreach ($allysRankXml as $allyRankXml) {
@@ -46,11 +51,11 @@ abstract class ClassAlliances_rank extends AbstractClass
             $dataAllyRank = array();
             $dataAllyRank['rank'] = (int)$allyRankXml[0]['position'];
             $dataAllyRank['ally_id'] = (int)$allyRankXml[0]['id'];
+            $dataAllyRank['number_member'] =   $allyPlayerCount[$dataAllyRank['ally_id']] ?? 0; /// si 0 => bug si pas dde joueur pas d alliance 
 
             //--------------doesn't have a default value--------------------
-            $dataAllyRank['ally'] = '?'; //Field 'ally' doesn't have a default value
-            $dataAllyRank['number_member'] = '0'; //number_member 'ally' doesn't have a default value
-            $dataAllyRank['points_per_member'] = '0'; //points_per_member 'ally' doesn't have a default value
+            $dataAllyRank['ally'] = '?'; //Field 'ally' doesn't have a default value => sera supp de la prochaine verion
+            $dataAllyRank['points_per_member'] = '0'; //points_per_member 'ally' doesn't have a default value  => sera supp de la prochaine verion
             //---------------------------------------------------------------
 
             $dataAllyRank['points'] = (string)$allyRankXml[0]['score']; /// strint car possible perte d info bigint

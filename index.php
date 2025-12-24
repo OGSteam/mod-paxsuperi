@@ -20,7 +20,7 @@ include MOD_ROOT_VUE . 'page_menu_mod.php';
 
 $setting = Setting::getInstance();
 
-/// formulaire possible
+/// formulaire admin
 if (isset($pub_admin) && $pub_admin == "1") {
     //univers
     if (isset($pub_uni)) {
