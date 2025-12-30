@@ -1,23 +1,30 @@
 <?php
 
 /**
+ * OGSPY - Mod PAx Superi
+ *
+ * @package [Mod] Pax Superi
+ * @author Machine
+ * @copyright Copyright &copy; 2016, https://ogsteam.eu/
+ * @license https://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
+/**
  * Classe de gestion des logs pour PaxSuperi.
- * 
+ *
  * Cette classe utilise la variable globale $log pour les logs et fournit
  * des methodes pour logger des messages a differents niveaux (info, warning,
  * error, debug, critical).
- * 
+ *
  * @category   PaxSuperi
- * @package    Core_Pax
- * @subpackage Logger
  *
  * @example
  * // Initialisation du logger
  * $logger = new Pax_Logger(true);
- * 
+ *
  * // Log un message d'information
  * $logger->info('Message d\'information');
- * 
+ *
  * // Log un message d'erreur
  * $logger->error('Message d\'erreur');
  */
@@ -25,7 +32,7 @@ class Pax_Logger
 {
     /**
      * @var bool Indique si les logs sont activés.
-     * 
+     *
      * Si cette variable est a true, les logs seront envoyes.
      * Si elle est a false, les logs ne seront pas envoyes.
      */
@@ -71,6 +78,7 @@ class Pax_Logger
      * Ajoute le préfixe [paxsuperi] à un message.
      *
      * @param string $message Le message à préfixer.
+     *
      * @return string Le message préfixé.
      */
     private function addPrefix($message)
@@ -82,9 +90,9 @@ class Pax_Logger
      * Log un message d'information.
      *
      * @param string $message Le message à logger.
-     * @param array $context Contexte supplémentaire pour le log.
+     * @param array  $context Contexte supplémentaire pour le log.
      */
-    public function info($message, array $context = array())
+    public function info($message, array $context = [])
     {
         if ($this->debug && isset($GLOBALS['log'])) {
             $GLOBALS['log']->info($this->addPrefix($message), $context);
@@ -95,9 +103,9 @@ class Pax_Logger
      * Log un message d'avertissement.
      *
      * @param string $message Le message à logger.
-     * @param array $context Contexte supplémentaire pour le log.
+     * @param array  $context Contexte supplémentaire pour le log.
      */
-    public function warning($message, array $context = array())
+    public function warning($message, array $context = [])
     {
         if ($this->debug && isset($GLOBALS['log'])) {
             $GLOBALS['log']->warning($this->addPrefix($message), $context);
@@ -108,9 +116,9 @@ class Pax_Logger
      * Log un message d'erreur.
      *
      * @param string $message Le message à logger.
-     * @param array $context Contexte supplémentaire pour le log.
+     * @param array  $context Contexte supplémentaire pour le log.
      */
-    public function error($message, array $context = array())
+    public function error($message, array $context = [])
     {
         if ($this->debug && isset($GLOBALS['log'])) {
             $GLOBALS['log']->error($this->addPrefix($message), $context);
@@ -121,9 +129,9 @@ class Pax_Logger
      * Log un message de debug.
      *
      * @param string $message Le message à logger.
-     * @param array $context Contexte supplémentaire pour le log.
+     * @param array  $context Contexte supplémentaire pour le log.
      */
-    public function debug($message, array $context = array())
+    public function debug($message, array $context = [])
     {
         if ($this->debug && isset($GLOBALS['log'])) {
             $GLOBALS['log']->debug($this->addPrefix($message), $context);
@@ -134,9 +142,9 @@ class Pax_Logger
      * Log un message critique.
      *
      * @param string $message Le message à logger.
-     * @param array $context Contexte supplémentaire pour le log.
+     * @param array  $context Contexte supplémentaire pour le log.
      */
-    public function critical($message, array $context = array())
+    public function critical($message, array $context = [])
     {
         if ($this->debug && isset($GLOBALS['log'])) {
             $GLOBALS['log']->critical($this->addPrefix($message), $context);
@@ -147,16 +155,16 @@ class Pax_Logger
      * Log une exception.
      *
      * @param Exception $exception L'exception à logger.
-     * @param array $context Contexte supplémentaire pour le log.
+     * @param array     $context   Contexte supplémentaire pour le log.
      */
-    public function logException(Exception $exception, array $context = array())
+    public function logException(Exception $exception, array $context = [])
     {
         if ($this->debug && isset($GLOBALS['log'])) {
             $message = sprintf(
                 '[paxsuperi] Exception: %s in %s on line %d',
                 $exception->getMessage(),
                 $exception->getFile(),
-                $exception->getLine()
+                $exception->getLine(),
             );
             $GLOBALS['log']->error($message, array_merge($context, ['exception' => $exception]));
         }

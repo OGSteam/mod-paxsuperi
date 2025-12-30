@@ -7,15 +7,6 @@
  * @author Machine
  * @copyright Copyright &copy; 2016, https://ogsteam.eu/
  * @license https://opensource.org/licenses/gpl-license.php GNU Public License
- *
- * @category   PaxSuperi
- * @package    Core_Pax
- * @subpackage Stepper
- *
- * @description
- * Script pour le traitement par etapes des donnees.
- * Ce script gere l'execution des etapes de traitement des donnees
- * depuis l'API d'OGame et coordonne les differentes etapes.
  */
 
 define('IN_SPYOGAME', true);
@@ -36,21 +27,19 @@ $setting = Setting::getInstance();
 
 /**
  * @var array $state Etat actuel du stepper.
- * 
+ *
  * Ce tableau contient les informations sur l'etat actuel du stepper,
  * telles que l'etat d'execution, l'etape courante, etc.
  */
-$state           = loadStepperState();
+$state = loadStepperState();
 
 /**
  * @var StepperResponse $stepperResponse Reponse du stepper.
- * 
+ *
  * Cette variable stocke la reponse du stepper, qui est utilisee pour
  * envoyer des messages et des erreurs a l'utilisateur.
  */
 $stepperResponse = new StepperResponse();
-
-
 
 // peut on commencer
 if (! stepperCanStart($state)) {
@@ -92,9 +81,9 @@ function loadStepperState(): array
         'stepperRunning'      => $setting->stepperRunning,
         'lastRunning'         => $setting->lastRunning,
         'lastRunningSecurity' => $setting->lastRunningSecurity,
-        'currentStep' => $setting->currentStep,
+        'currentStep'         => $setting->currentStep,
 
-        'total'               => count(Constant::getEndpoint()) * 2 - 1, // download + traitement
+        'total' => count(Constant::getEndpoint()) * 2 - 1, // download + traitement
     ];
 }
 
@@ -147,8 +136,8 @@ function startStepper(): void
 function resetStepper(): void
 {
     global $setting;
-    $setting->currentStep = 0;
-    $state['currentStep'] = 0;
+    $setting->currentStep    = 0;
+    $state['currentStep']    = 0;
     $setting->stepperRunning = 0;
     $state['stepperRunning'] = 0;
 }
@@ -202,12 +191,12 @@ function endpointToClass(string $endpoint): string
  * la liste des etapes et en appelant la methode correspondante
  * de la classe associee.
  *
- * @param array $state Etat actuel du stepper.
- * @param StepperResponse $resp Reponse du stepper.
+ * @param array           $state Etat actuel du stepper.
+ * @param StepperResponse $resp  Reponse du stepper.
  */
 function runCurrentStep(array $state, StepperResponse $resp): void
 {
-      global $setting;
+    global $setting;
 
     $steps   = buildStepList();
     $current = $state['currentStep'];

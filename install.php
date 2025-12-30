@@ -19,7 +19,6 @@ global $table_prefix;
 
 include_once 'mod/paxsuperi/common.php';
 
-
 $install_ogspy = false;
 $is_ok         = false;
 $mod_folder    = 'paxsuperi';
@@ -30,7 +29,7 @@ if ($is_ok) {
     $setting = new Setting();
 
     $setting->resetCurrentUse();
-    $setting->pays  = 'fr';
-    $setting->uni =  '198';
+    $setting->pays          = 'fr';
+    $setting->uni           = '198';
     $setting->temporisation = '1';
 }

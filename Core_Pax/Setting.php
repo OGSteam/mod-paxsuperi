@@ -1,28 +1,35 @@
 <?php
 
+/**
+ * OGSPY - Mod PAx Superi
+ *
+ * @package [Mod] Pax Superi
+ * @author Machine
+ * @copyright Copyright &copy; 2016, https://ogsteam.eu/
+ * @license https://opensource.org/licenses/gpl-license.php GNU Public License
+ */
+
 if (! defined('IN_SPYOGAME')) {
     exit('Hacking attempt');
 }
 
 /**
  * Classe pour la gestion des parametres de configuration.
- * 
+ *
  * Cette classe fournit des methodes pour recuperer et gerer
  * les parametres de configuration du module PaxSuperi.
  * Elle implemente le pattern singleton pour s'assurer qu'une seule
  * instance de la classe est creee.
  *
  * @category   PaxSuperi
- * @package    Core_Pax
- * @subpackage Setting
  *
  * @example
  * // Recuperer l'instance de la classe Setting
  * $setting = Setting::getInstance();
- * 
+ *
  * // Recuperer un parametre de configuration
  * $pays = $setting->pays;
- * 
+ *
  * // Modifier un parametre de configuration
  * $setting->pays = 'fr';
  */
@@ -31,11 +38,11 @@ class Setting
     /**
      * @var Setting|null Instance unique de la classe (singleton).
      */
-    private static  $instance = null;
-    
+    private static $instance;
+
     /**
      * @var array Donnees de configuration.
-     * 
+     *
      * Ce tableau stocke les valeurs des parametres de configuration
      * recuperes depuis la base de donnees.
      */
@@ -43,14 +50,14 @@ class Setting
 
     /**
      * @var string Nom du module.
-     * 
+     *
      * Ce nom est utilise pour identifier le module dans la base de donnees.
      */
-    private string $modName = "paxsuperi";
-    
+    private string $modName = 'paxsuperi';
+
     /**
      * @var array Liste des parametres de configuration autorises.
-     * 
+     *
      * Les parametres autorises sont :
      * - pays : Code du pays (ex: 'fr').
      * - uni : Numero de l'univers (ex: '123').
@@ -74,7 +81,7 @@ class Setting
 
     /**
      * @var array Liste des parametres de configuration modifiables.
-     * 
+     *
      * Les parametres modifiables sont :
      * - pays : Code du pays (ex: 'fr').
      * - uni : Numero de l'univers (ex: '123').
@@ -88,8 +95,6 @@ class Setting
         'debug',
     ];
 
-
-
     /**
      * Constructeur prive pour implementer le pattern singleton.
      *
@@ -100,8 +105,9 @@ class Setting
      */
     private function __construct()
     {
-        $this->datas = array();
-        // recuperation des tous les items  
+        $this->datas = [];
+
+        // recuperation des tous les items
         foreach ($this->allowedConf as $item) {
             $this->datas[$item] = $this->pax_mod_get_option($item);
         }
@@ -124,8 +130,6 @@ class Setting
         return self::$instance;
     }
 
-
-
     /**
      * Reinitialise les parametres de configuration non essentiels.
      *
@@ -138,11 +142,9 @@ class Setting
 
         // remise a 0 des elements non essentielles au focntionnement du mod
         foreach ($tabAllowedConf as $item) {
-            $this->$item = 0;
+            $this->{$item} = 0;
         }
     }
-
-
 
     /**
      * Recupere un parametre de configuration.
@@ -165,22 +167,20 @@ class Setting
      * Cette methode permet de definir un parametre de configuration
      * en utilisant la syntaxe $setting->parametre = valeur.
      *
-     * @param string $name Nom du parametre de configuration.
-     * @param mixed $value Valeur du parametre de configuration.
+     * @param string $name  Nom du parametre de configuration.
+     * @param mixed  $value Valeur du parametre de configuration.
      *
      * @throws Exception Si le parametre de configuration n'est pas autorise.
      */
     public function __set($name, $value)
     {
-        if (!in_array($name, $this->allowedConf, true)) {
-            throw new Exception("setting non autorisé  : $name");
+        if (! in_array($name, $this->allowedConf, true)) {
+            throw new Exception("setting non autorisé  : {$name}");
         }
 
         $this->pax_mod_set_option($name, $value);
         $this->datas[$name] = $value;
     }
-
-
 
     /**
      * Recupere un parametre de configuration depuis la base de donnees.
@@ -196,7 +196,7 @@ class Setting
     {
         return mod_get_option($param, $this->modName);
     }
-    
+
     /**
      * Definit un parametre de configuration dans la base de donnees.
      *
@@ -204,12 +204,12 @@ class Setting
      * de configuration dans la base de donnees.
      *
      * @param string $param Nom du parametre de configuration.
-     * @param mixed $value Valeur du parametre de configuration.
+     * @param mixed  $value Valeur du parametre de configuration.
      *
      * @return mixed Resultat de l'operation.
      */
     private function pax_mod_set_option($param, $value)
     {
-        return mod_set_option($param, $value,  $this->modName);
+        return mod_set_option($param, $value, $this->modName);
     }
 }

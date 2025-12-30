@@ -15,13 +15,11 @@ if (! defined('IN_SPYOGAME')) {
 
 /**
  * Classe pour la gestion des fichiers XML.
- * 
+ *
  * Cette classe fournit des methodes pour telecharger, stocker et recuperer
  * les fichiers XML depuis l'API d'OGame.
  *
  * @category   PaxSuperi
- * @package    Core_Pax
- * @subpackage XmlManager
  */
 class XmlManager
 {
@@ -29,12 +27,12 @@ class XmlManager
      * @var string Chemin où stocker les fichiers XML.
      */
     private string $folderSavePath;
-    
+
     /**
      * @var string Code du pays.
      */
     private string $pays;
-    
+
     /**
      * @var string Numéro de l'univers.
      */
@@ -43,8 +41,8 @@ class XmlManager
     /**
      * Constructeur de la classe.
      *
-     * @param string $pays Code du pays (ex: 'fr').
-     * @param string $uni Numéro de l'univers (ex: '123').
+     * @param string      $pays           Code du pays (ex: 'fr').
+     * @param string      $uni            Numéro de l'univers (ex: '123').
      * @param string|null $folderSavePath Chemin où stocker les fichiers XML (ex: 'storage/').
      *                                    Si null, utilise MOD_ROOT_XML.
      */

@@ -15,15 +15,13 @@ if (! defined('IN_SPYOGAME')) {
 
 /**
  * Classe abstraite pour la gestion des donnees.
- * 
+ *
  * Cette classe abstraite fournit des methodes de base pour telecharger,
  * traiter et gerer les donnees depuis l'API d'OGame.
  * Elle est heritee par les classes specifiques pour chaque type de donnee
  * (joueurs, alliances, univers, etc.).
  *
  * @category   PaxSuperi
- * @package    Class
- * @subpackage AbstractClass
  *
  * @example
  * // Creer une classe specifique pour un type de donnee
@@ -34,7 +32,7 @@ if (! defined('IN_SPYOGAME')) {
  *         // Implementation specifique pour le traitement des joueurs
  *     }
  * }
- * 
+ *
  * // Utiliser la classe specifique
  * $players = new ClassPlayers('CST_PLAYERS');
  * $players->download();
@@ -45,13 +43,13 @@ class AbstractClass
     /**
      * @var Setting Instance des parametres de configuration.
      */
-    protected Setting $setting ;
-    
+    protected Setting $setting;
+
     /**
      * @var StepperResponse Reponse du stepper.
      */
     protected StepperResponse $response;
-    
+
     /**
      * @var string Point de terminaison de l'API pour recuperer les donnees.
      */
@@ -67,7 +65,7 @@ class AbstractClass
      */
     public function __construct(string $endpoint)
     {
-        $this->setting = Setting::getInstance();
+        $this->setting  = Setting::getInstance();
         $this->response = new StepperResponse();
         $this->endpoint = $endpoint;
     }
@@ -86,9 +84,9 @@ class AbstractClass
     {
         // telechargement du fichier xml correspondant au endpoint
         // Initialisation
-        $pays          =  $this->setting->pays;
-        $uni           = (int)$this->setting->uni; 
-        $temporisation = (int) $this->setting->temporisation;  
+        $pays          = $this->setting->pays;
+        $uni           = (int) $this->setting->uni;
+        $temporisation = (int) $this->setting->temporisation;
 
         $xmlManager = new XmlManager($pays, $uni);
         $endpoints  = Constant::getEndpoint();
@@ -119,21 +117,20 @@ class AbstractClass
         //    }
     }
 
-        /**
+    /**
      * Effectue le pre-traitement des donnees.
      *
      * Cette methode verifie si le fichier XML est a jour avant de
      * procéder au traitement des donnees.
      *
-     * @return StepperResponse|bool Reponse du stepper ou true si le pre-traitement reussi.
+     * @return bool|StepperResponse Reponse du stepper ou true si le pre-traitement reussi.
      *
      * @throws Exception Si une erreur survient lors du pre-traitement.
      */
-    protected function preTraitement(): StepperResponse|bool
+    protected function preTraitement(): bool|StepperResponse
     {
-        $pays          =  $this->setting->pays;
-        $uni           = (int)$this->setting->uni; 
-
+        $pays = $this->setting->pays;
+        $uni  = (int) $this->setting->uni;
 
         $xmlManager = new XmlManager($pays, $uni);
         $endpoints  = Constant::getEndpoint();
@@ -147,11 +144,9 @@ class AbstractClass
 
             return $this->response;
         }
+
         return true;
     }
-
-
-
 
     /**
      * Traite les donnees.

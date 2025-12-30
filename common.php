@@ -7,14 +7,6 @@
  * @author Machine
  * @copyright Copyright &copy; 2016, https://ogsteam.eu/
  * @license https://opensource.org/licenses/gpl-license.php GNU Public License
- *
- * @category   PaxSuperi
- * @package    Common
- *
- * @description
- * Fichier commun pour le module PaxSuperi.
- * Ce fichier contient les definitions et les inclusions necessaires
- * pour le fonctionnement du module.
  */
 
 if (! defined('IN_SPYOGAME')) {
@@ -39,7 +31,6 @@ define('MOD_ROOT_XML', MOD_ROOT . 'Xml/');
 define('MOD_ROOT_CORE_PAX', MOD_ROOT . 'Core_Pax/');
 define('MOD_ROOT_CORE_OGSPY', MOD_ROOT . 'Core_Ogspy/');
 define('MOD_ROOT_CORE_CLASS', MOD_ROOT . 'Class/');
-
 
 define('TYPE_PLANET', 'planet');
 define('TYPE_MOON', 'moon');
@@ -72,9 +63,9 @@ include MOD_ROOT_MODEL . 'Pax_Astro_Object_Model.php';
 include MOD_ROOT_CORE_PAX . 'Pax_Logger.php';
 
 // Initialisation du logger global
-if (!isset($GLOBALS['pax_logger'])) {
-    $setting = Setting::getInstance();
-    $debug = isset($setting->debug) ? (bool)$setting->debug : true; // Utilise la valeur de debug depuis la configuration, true par défaut
+if (! isset($GLOBALS['pax_logger'])) {
+    $setting               = Setting::getInstance();
+    $debug                 = isset($setting->debug) ? (bool) $setting->debug : true; // Utilise la valeur de debug depuis la configuration, true par défaut
     $GLOBALS['pax_logger'] = new Pax_Logger($debug);
 }
 
@@ -83,25 +74,24 @@ if (!isset($GLOBALS['pax_logger'])) {
 
 // fn util bypass ogspy
 
-
 /**
  * formatage_timestamp_for_rank
  *
  * change l'horaire du classement avec un horaire compatible pour un affichage dans ogspy
  *
  * @param int $time timestamp
+ *
  * @return int
  */
 function formatage_timestamp_for_rank($time)
 {
-    /// il faut garder le format ogspy ( toutes les 8 heeures ... ) )
+    // / il faut garder le format ogspy ( toutes les 8 heeures ... ) )
     $temp = getdate($time);
 
     // on format la date
     $temp['seconds'] = 0;
     $temp['minutes'] = 0;
     if ($temp['hours'] >= 0 && $temp['hours'] < 8) {
-
         $temp['hours'] = 0;
     }
     if ($temp['hours'] >= 8 && $temp['hours'] < 16) {
@@ -111,6 +101,5 @@ function formatage_timestamp_for_rank($time)
         $temp['hours'] = 16;
     }
 
-    $time = mktime($temp['hours'], $temp['minutes'], $temp['seconds'], $temp['mon'], $temp['mday'], $temp['year']);
-    return $time;
+    return mktime($temp['hours'], $temp['minutes'], $temp['seconds'], $temp['mon'], $temp['mday'], $temp['year']);
 }

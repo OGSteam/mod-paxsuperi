@@ -4,12 +4,11 @@ if (! defined('IN_SPYOGAME')) {
     exit('Hacking attempt');
 }
 
-$pub_subaction    = (isset($pub_subaction)) ? $pub_subaction : 'paxsuperi';
+$pub_subaction = (isset($pub_subaction)) ? $pub_subaction : 'paxsuperi';
 
 $activeIndex = ($pub_subaction === 'paxsuperi') ? 'active' : '';
-$activeState     = ($pub_subaction === 'state') ? 'active' : '';
-$activeAdmin      = ($pub_subaction === 'admin') ? 'active' : '';
-
+$activeState = ($pub_subaction === 'state') ? 'active' : '';
+$activeAdmin = ($pub_subaction === 'admin') ? 'active' : '';
 
 ?>
 
@@ -29,5 +28,5 @@ $activeAdmin      = ($pub_subaction === 'admin') ? 'active' : '';
             Administration
         </a>
     </div>
-    
+
 </div>

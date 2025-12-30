@@ -42,12 +42,13 @@ class Pax_sql_db extends sql_db
     {
         global $pax_logger;
         $pax_logger->info('Tentative de transaction MySQL avec le mode: ' . $mode);
-        
+
         switch (strtolower($mode)) {
             case 'begin':
             case 'start':
                 if ($this->transactionInProgress) {
                     $pax_logger->error('Tentative de demarrage d\'une nouvelle transaction alors qu\'une transaction est deja en cours');
+
                     throw new ErrorException("Une transaction est déjà en cours. Veuillez la finaliser avant d'en démarrer une nouvelle.");
                 }
                 $result = mysqli_autocommit($this->db_connect_id, false)
@@ -65,7 +66,7 @@ class Pax_sql_db extends sql_db
                 $result = mysqli_commit($this->db_connect_id);
                 mysqli_autocommit($this->db_connect_id, true);
                 $this->transactionInProgress = false;
-                
+
                 if ($result) {
                     $pax_logger->info('Transaction MySQL validee avec succes');
                 } else {
@@ -78,7 +79,7 @@ class Pax_sql_db extends sql_db
                 $result = mysqli_rollback($this->db_connect_id);
                 mysqli_autocommit($this->db_connect_id, true);
                 $this->transactionInProgress = false;
-                
+
                 if ($result) {
                     $pax_logger->info('Transaction MySQL annulee avec succes');
                 } else {
@@ -94,7 +95,7 @@ class Pax_sql_db extends sql_db
 
     /**
      * Destructeur de la classe.
-     * 
+     *
      * Ce destructeur verifie si une transaction est en cours et l'annule
      * si necessaire pour eviter les transactions orphelines.
      */

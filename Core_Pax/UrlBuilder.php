@@ -15,13 +15,11 @@ if (! defined('IN_SPYOGAME')) {
 
 /**
  * Classe pour la construction des URLs.
- * 
+ *
  * Cette classe fournit des methodes pour construire les URLs
  * utilisees pour acceder a l'API d'OGame.
  *
  * @category   PaxSuperi
- * @package    Core_Pax
- * @subpackage UrlBuilder
  */
 class UrlBuilder
 {
@@ -33,8 +31,8 @@ class UrlBuilder
      * les placeholders par les valeurs specifiques.
      *
      * @param string $constantName Nom de la constante definie dans la classe Constant.
-     * @param string $pays Pays pour lequel l'URL doit etre construite.
-     * @param string $uni Univers pour lequel l'URL doit etre construite.
+     * @param string $pays         Pays pour lequel l'URL doit etre construite.
+     * @param string $uni          Univers pour lequel l'URL doit etre construite.
      *
      * @return string|null URL construite ou null si la constante n'est pas valide.
      */

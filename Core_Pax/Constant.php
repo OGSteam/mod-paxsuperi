@@ -15,14 +15,12 @@ if (! defined('IN_SPYOGAME')) {
 
 /**
  * Classe pour la gestion des constantes.
- * 
+ *
  * Cette classe fournit des methodes pour recuperer les constantes
  * utilisees dans le module PaxSuperi, telles que les URLs de l'API
  * d'OGame et les parametres de validite.
  *
  * @category   PaxSuperi
- * @package    Core_Pax
- * @subpackage Constant
  */
 class Constant
 {
@@ -71,14 +69,12 @@ class Constant
         return $tCst;
     }
 
-
-
     public static function getEndpoint(): array
     {
         $tEndpoint   = [];
         $tEndpoint[] = 'CST_PLAYERS';
         $tEndpoint[] = 'CST_ALLIANCES';
-       $tEndpoint[] = 'CST_UNIVERSE';
+        $tEndpoint[] = 'CST_UNIVERSE';
         $tEndpoint[] = 'CST_PLAYERS_RANK_POINTS';
         $tEndpoint[] = 'CST_PLAYERS_RANK_ECO';
         $tEndpoint[] = 'CST_PLAYERS_RANK_TECHNOLOGY';
@@ -87,14 +83,14 @@ class Constant
         $tEndpoint[] = 'CST_PLAYERS_RANK_MILITARY_DESTROYED';
         $tEndpoint[] = 'CST_PLAYERS_RANK_MILITARY_LOST';
         $tEndpoint[] = 'CST_PLAYERS_RANK_MILITARY_HONNOR';
-           $tEndpoint[] = 'CST_ALLIANCES_RANK_POINTS';
-           $tEndpoint[] = 'CST_ALLIANCES_RANK_ECO';
-           $tEndpoint[] = 'CST_ALLIANCES_RANK_TECHNOLOGY';
-           $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY';
-           $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY_BUILT';
-           $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY_DESTROYED';
-           $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY_LOST';
-           $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY_HONNOR';
+        $tEndpoint[] = 'CST_ALLIANCES_RANK_POINTS';
+        $tEndpoint[] = 'CST_ALLIANCES_RANK_ECO';
+        $tEndpoint[] = 'CST_ALLIANCES_RANK_TECHNOLOGY';
+        $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY';
+        $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY_BUILT';
+        $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY_DESTROYED';
+        $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY_LOST';
+        $tEndpoint[] = 'CST_ALLIANCES_RANK_MILITARY_HONNOR';
         // $tEndpoint[] = 'CST_SERVERDATA';
         // $tEndpoint[] = 'CST_SERVERS';
 
