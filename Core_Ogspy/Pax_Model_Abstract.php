@@ -31,8 +31,8 @@ abstract class Pax_Model_Abstract extends Model_Abstract
     /**
      * @var string Nom de la table dans la base de donnees.
      */
-    protected string $table ;
-    
+    protected string $table;
+
     /**
      * @var array Liste des champs autorises pour la table.
      * 
@@ -40,14 +40,14 @@ abstract class Pax_Model_Abstract extends Model_Abstract
      * pour les operations d'enregistrement et de mise a jour.
      */
     protected array $allowedFields;
-    
+
     /**
      * @var array Liste des champs requis pour la table.
      * 
      * Les champs requis sont ceux qui doivent etre presents
      * pour les operations d'enregistrement et de mise a jour.
      */
-    protected array $requiredFields; 
+    protected array $requiredFields;
 
 
     /**
@@ -67,7 +67,7 @@ abstract class Pax_Model_Abstract extends Model_Abstract
     {
         global $pax_logger;
         $pax_logger->info('Tentative d\'enregistrement d\'une entite dans la table ' . $this->table);
-        
+
         if (empty($data)) {
             $pax_logger->warning('Donnees vides pour l\'enregistrement');
             return false;
@@ -91,13 +91,13 @@ abstract class Pax_Model_Abstract extends Model_Abstract
         // creation requete SQL
         $sql = $this->prepareQuery([$data], $key);
         $result = $this->db->sql_query($sql);
-        
+
         if ($result) {
             $pax_logger->info('Enregistrement reussi dans la table ' . $this->table);
         } else {
             $pax_logger->error('Echec de l\'enregistrement dans la table ' . $this->table);
         }
-        
+
         return $result;
     }
 
@@ -119,7 +119,7 @@ abstract class Pax_Model_Abstract extends Model_Abstract
     {
         global $pax_logger;
         $pax_logger->info('Tentative d\'enregistrement de ' . count($datas) . ' entites dans la table ' . $this->table);
-        
+
         // Si pas de data à traiter, retourne false
         if (empty($datas)) {
             $pax_logger->warning('Aucune donnee a enregistrer');
@@ -146,13 +146,13 @@ abstract class Pax_Model_Abstract extends Model_Abstract
         // creation requete SQL
         $sql = $this->prepareQuery($datas, $key);
         $result = $this->db->sql_query($sql);
-        
+
         if ($result) {
             $pax_logger->info('Enregistrement multiple reussi dans la table ' . $this->table);
         } else {
             $pax_logger->error('Echec de l\'enregistrement multiple dans la table ' . $this->table);
         }
-        
+
         return $result;
     }
 
@@ -170,7 +170,7 @@ abstract class Pax_Model_Abstract extends Model_Abstract
     {
         foreach ($this->requiredFields as $field) {
             if (!array_key_exists($field, $data)) {
-                 return false;
+                return false;
             }
         }
         return true;
@@ -215,7 +215,16 @@ abstract class Pax_Model_Abstract extends Model_Abstract
     private function prepareQuery(array $datas, array $key): string
     {
         global $pax_logger;
+        $pax_logger->info('Traitement  de ' . count($datas) . ' entites dans la table ' . $this->table);
         $pax_logger->debug('Preparation de la requete SQL pour l\'enregistrement des donnees');
+
+        // Si pas de data à traiter, retourne false
+        if (empty($datas)) {
+            $pax_logger->warning('Aucune donnee a enregistrer');
+            return false;
+        }
+
+
 
         $values = [];
         $currentAllowedFields =   array_intersect($key, $this->allowedFields); // le meilleur des deux mondes currentAllowedFields
@@ -225,7 +234,7 @@ abstract class Pax_Model_Abstract extends Model_Abstract
             foreach ($currentAllowedFields as $field) {
                 if (array_key_exists($field, $data)) {
 
-                    
+
                     $currentValue = $data[$field];
 
                     // on caste au besoin sinon escape
@@ -250,7 +259,7 @@ abstract class Pax_Model_Abstract extends Model_Abstract
             }
         }
         $query .= " ON DUPLICATE KEY UPDATE " . implode(', ', $updates);
-        
+
         $pax_logger->debug('Requete SQL preparee: ' . substr($query, 0, 200) . '...');
 
         return $query;
