@@ -13,21 +13,45 @@ if (! defined('IN_SPYOGAME')) {
     exit('Hacking attempt');
 }
 
+/**
+ * Classe pour la gestion des joueurs.
+ * 
+ * Cette classe herite de AbstractClass et fournit des methodes pour traiter
+ * les donnees des joueurs depuis l'API XML d'OGame.
+ *
+ * @category   PaxSuperi
+ * @package    Class
+ * @subpackage Players
+ */
 class ClassPlayers extends AbstractClass
 {
-
-
+    /**
+     * Traite les donnees des joueurs.
+     * 
+     * Cette methode recupere les donnees des joueurs depuis l'API XML,
+     * les transforme et les enregistre dans la base de donnees.
+     *
+     * @return StepperResponse Reponse du traitement.
+     *
+     * @throws Exception Si une erreur survient lors du traitement.
+     */
     public function traitement(): StepperResponse
     {
+        global $pax_logger;
+        $pax_logger->info('Début du traitement des joueurs');
+        
         if ($this->preTraitement() !== true) {
+            $pax_logger->warning('Pré-traitement échoué pour les joueurs');
             return $this->response;
         }
         $pays          =  $this->setting->pays;
         $uni           = (int)$this->setting->uni; 
+        $pax_logger->debug('Récupération des données pour le pays: ' . $pays . ' et l\'univers: ' . $uni);
 
         $xmlManager = new XmlManager($pays, $uni);
         $playersXmlString = $xmlManager->getLocalXml($this->endpoint);
         $playersXml = simplexml_load_string($playersXmlString);
+        $pax_logger->info('Données XML des joueurs chargées avec succès');
         // date
         $datadate = (int)$playersXml->attributes()->timestamp;
         // recup info player en bdd ogspy => Xml data 

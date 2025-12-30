@@ -13,11 +13,33 @@ if (! defined('IN_SPYOGAME')) {
     exit('Hacking attempt');
 }
 
+/**
+ * Classe abstraite pour la gestion des classements des alliances.
+ * 
+ * Cette classe herite de AbstractClass et fournit des methodes pour traiter
+ * les donnees des classements des alliances depuis l'API XML d'OGame.
+ *
+ * @category   PaxSuperi
+ * @package    Class
+ * @subpackage Alliances_Rank
+ */
 abstract class ClassAlliances_rank extends AbstractClass
 {
+    /**
+     * @var Pax_Rankings_Ally_Model Modele pour la gestion des classements des alliances.
+     */
     protected  $model;
+    
+    /**
+     * @var Pax_Player_Model Modele pour la gestion des joueurs.
+     */
     protected  $modelPlayer;
 
+    /**
+     * Constructeur de la classe.
+     *
+     * @param string $endpoint Point de terminaison de l'API pour recuperer les donnees.
+     */
     public function __construct(string $endpoint)
     {
         parent::__construct($endpoint);
@@ -25,22 +47,40 @@ abstract class ClassAlliances_rank extends AbstractClass
         $this->modelPlayer = new Pax_Player_Model();
     }
 
+    /**
+     * Traite les donnees des classements des alliances.
+     * 
+     * Cette methode recupere les donnees des classements des alliances depuis l'API XML,
+     * les transforme et les enregistre dans la base de donnees.
+     *
+     * @return StepperResponse Reponse du traitement.
+     *
+     * @throws Exception Si une erreur survient lors du traitement.
+     */
     public function traitement(): StepperResponse
     {
+        global $pax_logger;
+        $pax_logger->info('Debut du traitement des classements des alliances pour ' . $this->endpoint);
+        
         if ($this->preTraitement() !== true) {
+            $pax_logger->warning('Pre-traitement echoue pour les classements des alliances');
             return $this->response;
         }
         $pays          =  $this->setting->pays;
         $uni           = (int)$this->setting->uni;
+        $pax_logger->debug('Recuperation des donnees pour le pays: ' . $pays . ' et l\'univers: ' . $uni);
 
         $allyPlayerCount = $this->modelPlayer->get_player_count_by_ally();
+        $pax_logger->info('Recuperation du nombre de joueurs par alliance');
 
 
         $xmlManager = new XmlManager($pays, $uni);
         $allyRankString = $xmlManager->getLocalXml($this->endpoint);
         $allysRankXml = simplexml_load_string($allyRankString);
+        $pax_logger->info('Donnees XML des classements des alliances chargees avec succes');
         // date
         $datadate = formatage_timestamp_for_rank((int)$allysRankXml->attributes()->timestamp);
+        $pax_logger->debug('Timestamp formate pour les classements: ' . $datadate);
 
         //tableau Ally / count(player)
         $allyPlayerCount = $this->modelPlayer->get_player_count_by_ally();
@@ -69,12 +109,14 @@ abstract class ClassAlliances_rank extends AbstractClass
         //$this->model = new Pax_Rankings_Player_Model();
 
         if ($this->model->saveMultiple($dataAllysRank)) {
+            $pax_logger->info('Enregistrement des classements des alliances effectue avec succes');
             $this->response->setMessage('Enregistrement effectué  ' . $this->endpoint);
             return $this->response;
         }
 
 
         // si erreur 
+        $pax_logger->error('Erreur lors de l\'enregistrement des classements des alliances');
         $this->response->setError('Une erreur est survenue ' . $this->endpoint);
         $this->response->setMessage('Une erreur est survenue ' . $this->endpoint);
 

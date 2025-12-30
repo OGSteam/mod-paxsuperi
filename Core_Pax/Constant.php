@@ -13,8 +13,28 @@ if (! defined('IN_SPYOGAME')) {
     exit('Hacking attempt');
 }
 
+/**
+ * Classe pour la gestion des constantes.
+ * 
+ * Cette classe fournit des methodes pour recuperer les constantes
+ * utilisees dans le module PaxSuperi, telles que les URLs de l'API
+ * d'OGame et les parametres de validite.
+ *
+ * @category   PaxSuperi
+ * @package    Core_Pax
+ * @subpackage Constant
+ */
 class Constant
 {
+    /**
+     * Recupere les constantes du module.
+     *
+     * Cette methode retourne un tableau associatif contenant les constantes
+     * utilisees dans le module, telles que les URLs de l'API d'OGame et les
+     * parametres de validite.
+     *
+     * @return array Tableau associatif des constantes.
+     */
     public static function getCst(): array
     {
         $tCst = [];

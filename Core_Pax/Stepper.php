@@ -7,6 +7,15 @@
  * @author Machine
  * @copyright Copyright &copy; 2016, https://ogsteam.eu/
  * @license https://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ * @category   PaxSuperi
+ * @package    Core_Pax
+ * @subpackage Stepper
+ *
+ * @description
+ * Script pour le traitement par etapes des donnees.
+ * Ce script gere l'execution des etapes de traitement des donnees
+ * depuis l'API d'OGame et coordonne les differentes etapes.
  */
 
 define('IN_SPYOGAME', true);
@@ -20,15 +29,32 @@ if (preg_match('#mod#', getcwd())) {
 include 'common.php';
 include_once 'mod/paxsuperi/common.php';
 
+/**
+ * @var Setting $setting Instance des parametres de configuration.
+ */
 $setting = Setting::getInstance();
+
+/**
+ * @var array $state Etat actuel du stepper.
+ * 
+ * Ce tableau contient les informations sur l'etat actuel du stepper,
+ * telles que l'etat d'execution, l'etape courante, etc.
+ */
 $state           = loadStepperState();
+
+/**
+ * @var StepperResponse $stepperResponse Reponse du stepper.
+ * 
+ * Cette variable stocke la reponse du stepper, qui est utilisee pour
+ * envoyer des messages et des erreurs a l'utilisateur.
+ */
 $stepperResponse = new StepperResponse();
 
 
 
 // peut on commencer
 if (! stepperCanStart($state)) {
-    return $stepperResponse->setError('Ne peut démarrer.')->send();
+    return $stepperResponse->setError('Ne peut demarrer.')->send();
 }
 
 // lancement stepper
@@ -41,7 +67,7 @@ if ($state['currentStep'] > $state['total']) {
     resetStepper();
 
     return $stepperResponse
-        ->setMessage('Le travail semble terminé')
+        ->setMessage('Le travail semble termine')
         ->setError('Ne peut poursuivre 1 .')
         ->send();
 }
@@ -49,6 +75,15 @@ if ($state['currentStep'] > $state['total']) {
 // Lancement etape courante
 runCurrentStep($state, $stepperResponse);
 
+/**
+ * Charge l'etat actuel du stepper.
+ *
+ * Cette fonction charge l'etat actuel du stepper depuis les parametres
+ * de configuration et retourne un tableau contenant les informations
+ * sur l'etat d'execution, l'etape courante, etc.
+ *
+ * @return array Etat actuel du stepper.
+ */
 function loadStepperState(): array
 {
     global $setting;
@@ -63,14 +98,30 @@ function loadStepperState(): array
     ];
 }
 
+/**
+ * Verifie si le stepper peut demarrer.
+ *
+ * Cette fonction verifie si le stepper peut demarrer en fonction
+ * de la derniere execution et de l'etat actuel du stepper.
+ *
+ * @param array $state Etat actuel du stepper.
+ *
+ * @return bool True si le stepper peut demarrer, false sinon.
+ */
 function stepperCanStart(array $state): bool
 {
     $recent = (time() - $state['lastRunning']) < $state['lastRunningSecurity'];
 
-    // Si dernière exécution < sécurité ET stepper arrêté => refus
+    // Si derniere execution < securite ET stepper arrete => refus
     return ! ($recent && $state['lastRunning'] === 0);
 }
 
+/**
+ * Demarre le stepper.
+ *
+ * Cette fonction demarre le stepper en initialisant les parametres
+ * de configuration et en definissant l'etat d'execution du stepper.
+ */
 function startStepper(): void
 {
     global $setting;
@@ -87,6 +138,12 @@ function startStepper(): void
     $state['total'] = count(Constant::getEndpoint()) * 2 - 1;
 }
 
+/**
+ * Reinitialise le stepper.
+ *
+ * Cette fonction reinitialise le stepper en remettant a zero les parametres
+ * de configuration et en arretant l'execution du stepper.
+ */
 function resetStepper(): void
 {
     global $setting;
@@ -96,6 +153,15 @@ function resetStepper(): void
     $state['stepperRunning'] = 0;
 }
 
+/**
+ * Construit la liste des etapes du stepper.
+ *
+ * Cette fonction construit la liste des etapes du stepper en utilisant
+ * les constantes definies dans la classe Constant et en creant des etapes
+ * pour le telechargement et le traitement des donnees.
+ *
+ * @return array Liste des etapes du stepper.
+ */
 function buildStepList(): array
 {
     $steps = [];
@@ -111,6 +177,17 @@ function buildStepList(): array
     return $steps;
 }
 
+/**
+ * Convertit un endpoint en nom de classe.
+ *
+ * Cette fonction convertit un nom d'endpoint en nom de classe
+ * en supprimant le prefixe 'CST_' et en mettant en majuscule la premiere
+ * lettre du nom.
+ *
+ * @param string $endpoint Nom de l'endpoint.
+ *
+ * @return string Nom de la classe correspondante.
+ */
 function endpointToClass(string $endpoint): string
 {
     $name = str_replace('CST_', '', $endpoint);
@@ -118,6 +195,16 @@ function endpointToClass(string $endpoint): string
     return 'Class' . ucfirst(strtolower($name));
 }
 
+/**
+ * Execute l'etape courante du stepper.
+ *
+ * Cette fonction execute l'etape courante du stepper en utilisant
+ * la liste des etapes et en appelant la methode correspondante
+ * de la classe associee.
+ *
+ * @param array $state Etat actuel du stepper.
+ * @param StepperResponse $resp Reponse du stepper.
+ */
 function runCurrentStep(array $state, StepperResponse $resp): void
 {
       global $setting;
@@ -126,7 +213,7 @@ function runCurrentStep(array $state, StepperResponse $resp): void
     $current = $state['currentStep'];
 
     if (! isset($steps[$current])) {
-        $resp->setError("Étape inconnue : {$current}")->send();
+        $resp->setError("Etape inconnue : {$current}")->send();
 
         exit();
     }
@@ -134,13 +221,13 @@ function runCurrentStep(array $state, StepperResponse $resp): void
     $resp->setProgress($current, $state['total']);
 
     $setting->currentStep = $current + 1;
-    // todo indiqué que la fin est arrivé  di total atteint step et enregistré dans bdd
+    // todo indique que la fin est arrivee di total atteint step et enregistre dans bdd
 
     $step = $steps[$current];
 
     if (! class_exists($step['class'])) {
         $resp
-            ->setMessage('La classe n’existe pas : ' . $step['class'])
+            ->setMessage('La classe n\'existe pas : ' . $step['class'])
             ->setError('Ne peut poursuivre 2.')
             ->send();
 

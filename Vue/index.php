@@ -3,6 +3,9 @@
 if (! defined('IN_SPYOGAME')) {
     exit('Hacking attempt');
 }
+
+global $pax_logger;
+$pax_logger->info('Chargement de la vue principale');
 ?>
   <style>
         #progress-container { margin: 20px 0; }

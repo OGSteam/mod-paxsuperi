@@ -7,18 +7,34 @@
  * @author Machine
  * @copyright Copyright &copy; 2016, https://ogsteam.eu/
  * @license https://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ * @category   PaxSuperi
+ * @package    Main
+ *
+ * @description
+ * Point d'entree principal du module PaxSuperi.
+ * Ce fichier gere les requetes utilisateur et charge les vues appropriees.
  */
 
 if (! defined('IN_SPYOGAME')) {
     exit('Hacking Attempt!');
 }
+
+/**
+ * Inclusion du fichier commun qui contient les definitions et les inclusions
+ * necessaires pour le fonctionnement du module.
+ */
 include_once 'mod/paxsuperi/common.php';
+
+global $pax_logger;
+$pax_logger->info('Chargement de la page principale de PaxSuperi');
 
 require_once 'views/page_header.php';
 include MOD_ROOT_VUE . 'page_header_mod.php';
 include MOD_ROOT_VUE . 'page_menu_mod.php';
 
 $setting = Setting::getInstance();
+$pax_logger->debug('Paramètres chargés: uni=' . $setting->uni . ', pays=' . $setting->pays);
 
 /// formulaire admin
 if (isset($pub_admin) && $pub_admin == "1") {
@@ -36,6 +52,7 @@ if (isset($pub_admin) && $pub_admin == "1") {
         $setting->temporisation = (int)$pub_temporisation;
     }
 }
+
 
 
 switch ($pub_subaction ?? null) {

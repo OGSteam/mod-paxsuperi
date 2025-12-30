@@ -7,13 +7,28 @@
  * @author Machine
  * @copyright Copyright &copy; 2016, https://ogsteam.eu/
  * @license https://opensource.org/licenses/gpl-license.php GNU Public License
+ *
+ * @category   PaxSuperi
+ * @package    Common
+ *
+ * @description
+ * Fichier commun pour le module PaxSuperi.
+ * Ce fichier contient les definitions et les inclusions necessaires
+ * pour le fonctionnement du module.
  */
 
 if (! defined('IN_SPYOGAME')) {
     exit('Hacking attempt');
 }
+
+/**
+ * @global string $table_prefix Prefixe des tables de la base de donnees.
+ */
 global $table_prefix;
 
+/**
+ * @var string Nom du module.
+ */
 define('MOD_NAME', 'paxsuperi');
 
 // paths
@@ -53,11 +68,15 @@ include MOD_ROOT_MODEL . 'Pax_Rankings_Player_Model.php';
 include MOD_ROOT_MODEL . 'Pax_Rankings_Ally_Model.php';
 include MOD_ROOT_MODEL . 'Pax_Astro_Object_Model.php';
 
+// include core pax logger
+include MOD_ROOT_CORE_PAX . 'Pax_Logger.php';
 
-
-
-
-
+// Initialisation du logger global
+if (!isset($GLOBALS['pax_logger'])) {
+    $setting = Setting::getInstance();
+    $debug = isset($setting->debug) ? (bool)$setting->debug : true; // Utilise la valeur de debug depuis la configuration, true par défaut
+    $GLOBALS['pax_logger'] = new Pax_Logger($debug);
+}
 
 // include core ogspy ( si OK a integrer dans code source )
 // include MOD_ROOT_CORE_OGSPY . 'Pax_mysql.php';

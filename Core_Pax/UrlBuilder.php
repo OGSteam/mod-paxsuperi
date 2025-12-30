@@ -13,8 +13,31 @@ if (! defined('IN_SPYOGAME')) {
     exit('Hacking attempt');
 }
 
+/**
+ * Classe pour la construction des URLs.
+ * 
+ * Cette classe fournit des methodes pour construire les URLs
+ * utilisees pour acceder a l'API d'OGame.
+ *
+ * @category   PaxSuperi
+ * @package    Core_Pax
+ * @subpackage UrlBuilder
+ */
 class UrlBuilder
 {
+    /**
+     * Construit une URL pour l'API d'OGame.
+     *
+     * Cette methode construit une URL pour l'API d'OGame en utilisant
+     * les constantes definies dans la classe Constant et en remplacant
+     * les placeholders par les valeurs specifiques.
+     *
+     * @param string $constantName Nom de la constante definie dans la classe Constant.
+     * @param string $pays Pays pour lequel l'URL doit etre construite.
+     * @param string $uni Univers pour lequel l'URL doit etre construite.
+     *
+     * @return string|null URL construite ou null si la constante n'est pas valide.
+     */
     public static function build(string $constantName, string $pays, string $uni): ?string
     {
         $validEndpoints = Constant::getEndpoint();

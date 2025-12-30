@@ -13,12 +13,29 @@ if (! defined('IN_SPYOGAME')) {
     exit('Hacking attempt');
 }
 
+/**
+ * Classe pour la gestion de l'univers.
+ * 
+ * Cette classe herite de AbstractClass et fournit des methodes pour traiter
+ * les donnees de l'univers depuis l'API XML d'OGame.
+ *
+ * @category   PaxSuperi
+ * @package    Class
+ * @subpackage Universe
+ */
 class ClassUniverse extends AbstractClass
 {
+    /**
+     * @var Pax_Astro_Object_Model Modele pour la gestion des objets astronomiques.
+     */
     protected  $astroModel;
 
 
-
+    /**
+     * Constructeur de la classe.
+     *
+     * @param string $endpoint Point de terminaison de l'API pour recuperer les donnees.
+     */
     public function __construct(string $endpoint)
     {
         parent::__construct($endpoint);
@@ -26,26 +43,43 @@ class ClassUniverse extends AbstractClass
     }
 
 
+
+    /**
+     * Traite les donnees de l'univers.
+     * 
+     * Cette methode recupere les donnees de l'univers depuis l'API XML,
+     * les transforme et les enregistre dans la base de donnees.
+     *
+     * @return StepperResponse Reponse du traitement.
+     *
+     * @throws Exception Si une erreur survient lors du traitement.
+     */
     public function traitement(): StepperResponse
     {
+        global $pax_logger;
+        $pax_logger->info('Debut du traitement de l\'univers');
+        
         if ($this->preTraitement() !== true) {
+            $pax_logger->warning('Pre-traitement echoue pour l\'univers');
             return $this->response;
         }
 
         $pays = $this->setting->pays;
         $uni = (int)$this->setting->uni;
+        $pax_logger->debug('Recuperation des donnees pour le pays: ' . $pays . ' et l\'univers: ' . $uni);
 
         $xmlManager = new XmlManager($pays, $uni);
         $universeXmlString = $xmlManager->getLocalXml($this->endpoint);
         $universeXml = simplexml_load_string($universeXmlString);
+        $pax_logger->info('Donnees XML de l\'univers chargees avec succes');
 
-        // Récupération du timestamp
+        // Recuperation du timestamp
         $datadate = (int)$universeXml->attributes()->timestamp;
 
         $dataAstros = array();
 
         foreach ($universeXml->planet as $astroObjecttXml) {
-            $t_coordonnee = explode(':', $astroObjecttXml[0]['coords']); // récuperation coord en cours
+            $t_coordonnee = explode(':', $astroObjecttXml[0]['coords']); // recuperation coord en cours
             $galaxy = (int)$t_coordonnee[0];
             $system = (int)$t_coordonnee[1];
             $row = (int) $t_coordonnee[2];
@@ -87,15 +121,17 @@ class ClassUniverse extends AbstractClass
             }
         }
         if ($this->astroModel->saveMultiple($dataAstros)) {
-            $this->response->setMessage('Enregistrement effectué  ' . $this->endpoint);
+            $pax_logger->info('Enregistrement des objets astronomiques effectue avec succes');
+            $this->response->setMessage('Enregistrement effectue  ' . $this->endpoint);
             return $this->response;
         }
 
 
 
-        // Si erreur ou aucun objet à enregistrer
-        $this->response->setError('Aucun objet astronomique à enregistrer ou erreur lors de l\'enregistrement ' . $this->endpoint);
-        $this->response->setMessage('Aucun objet astronomique à enregistrer ou erreur lors de l\'enregistrement ' . $this->endpoint);
+        // Si erreur ou aucun objet a enregistrer
+        $pax_logger->error('Aucun objet astronomique a enregistrer ou erreur lors de l\'enregistrement');
+        $this->response->setError('Aucun objet astronomique a enregistrer ou erreur lors de l\'enregistrement ' . $this->endpoint);
+        $this->response->setMessage('Aucun objet astronomique a enregistrer ou erreur lors de l\'enregistrement ' . $this->endpoint);
 
         return $this->response;
     }

@@ -14,19 +14,39 @@ if (! defined('IN_SPYOGAME')) {
 }
 
 /**
- * OGSPY - Mod PAx Superi
+ * Classe pour la gestion des fichiers XML.
+ * 
+ * Cette classe fournit des methodes pour telecharger, stocker et recuperer
+ * les fichiers XML depuis l'API d'OGame.
  *
- * @copyright Copyright &copy; 2016, https://ogsteam.eu/
- * @license https://opensource.org/licenses/gpl-license.php GNU Public License
+ * @category   PaxSuperi
+ * @package    Core_Pax
+ * @subpackage XmlManager
  */
 class XmlManager
 {
+    /**
+     * @var string Chemin où stocker les fichiers XML.
+     */
     private string $folderSavePath;
+    
+    /**
+     * @var string Code du pays.
+     */
     private string $pays;
+    
+    /**
+     * @var string Numéro de l'univers.
+     */
     private string $uni;
 
     /**
-     * @param string $storagePath Chemin où stocker les fichiers XML (ex: 'storage/')
+     * Constructeur de la classe.
+     *
+     * @param string $pays Code du pays (ex: 'fr').
+     * @param string $uni Numéro de l'univers (ex: '123').
+     * @param string|null $folderSavePath Chemin où stocker les fichiers XML (ex: 'storage/').
+     *                                    Si null, utilise MOD_ROOT_XML.
      */
     public function __construct(string $pays, string $uni, ?string $folderSavePath = null)
     {
@@ -41,13 +61,17 @@ class XmlManager
     }
 
     /**
-     * Télécharge un fichier XML depuis l'API OGame et le stocke localement.
+     * Telecharge un fichier XML depuis l'API OGame et le stocke localement.
      *
-     * @param string $constantName Nom de la constante (ex: 'CST_PLAYERS')
-     * @param string $pays         Code du pays (ex: 'fr')
-     * @param string $uni          Numéro de l'univers (ex: '123')
+     * Cette methode telecharge un fichier XML depuis l'API OGame en utilisant
+     * le nom de la constante pour construire l'URL, puis stocke le fichier
+     * localement dans le dossier specifie.
      *
-     * @return string Contenu du fichier XML
+     * @param string $constantName Nom de la constante (ex: 'CST_PLAYERS').
+     * @param string $pays         Code du pays (ex: 'fr').
+     * @param string $uni          Numéro de l'univers (ex: '123').
+     *
+     * @return string Contenu du fichier XML.
      */
     public function downloadXml(string $constantName): string
     {
