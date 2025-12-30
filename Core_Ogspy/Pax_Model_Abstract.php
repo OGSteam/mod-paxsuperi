@@ -85,7 +85,7 @@ abstract class Pax_Model_Abstract extends Model_Abstract
     {
         foreach ($this->requiredFields as $field) {
             if (!array_key_exists($field, $data)) {
-                return false;
+                 return false;
             }
         }
         return true;

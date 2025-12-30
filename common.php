@@ -47,6 +47,8 @@ include MOD_ROOT_MODEL . 'Pax_Player_Model.php';
 include MOD_ROOT_MODEL . 'Pax_Alliance_Model.php';
 include MOD_ROOT_MODEL . 'Pax_Rankings_Player_Model.php';
 include MOD_ROOT_MODEL . 'Pax_Rankings_Ally_Model.php';
+include MOD_ROOT_MODEL . 'Pax_Astro_Object_Model.php';
+
 
 
 

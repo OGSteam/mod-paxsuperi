@@ -12,7 +12,7 @@
 class Pax_Rankings_Ally_Model extends Pax_Model_Abstract
 {
     protected string  $table = TABLE_RANK_ALLY_POINTS;
-    protected array $allowedFields = ['rank', 'ally_id', 'points','nb_spacecraft', 'datadate','points_per_member', 'number_member','ally', "sender_id"];
+    protected array $allowedFields = ['rank', 'ally_id', 'points','nb_spacecraft', 'datadate', 'number_member', "sender_id"];
     protected array $requiredFields = ['ally_id', 'datadate'];
 
     public function setTable(string $table): void

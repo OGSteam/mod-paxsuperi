@@ -54,8 +54,8 @@ abstract class ClassAlliances_rank extends AbstractClass
             $dataAllyRank['number_member'] =   $allyPlayerCount[$dataAllyRank['ally_id']] ?? 0; /// si 0 => bug si pas dde joueur pas d alliance 
 
             //--------------doesn't have a default value--------------------
-            $dataAllyRank['ally'] = '?'; //Field 'ally' doesn't have a default value => sera supp de la prochaine verion
-            $dataAllyRank['points_per_member'] = '0'; //points_per_member 'ally' doesn't have a default value  => sera supp de la prochaine verion
+            //$dataAllyRank['ally'] = '?'; //Field 'ally' doesn't have a default value => sera supp de la prochaine verion
+            //$dataAllyRank['points_per_member'] = '0'; //points_per_member 'ally' doesn't have a default value  => sera supp de la prochaine verion
             //---------------------------------------------------------------
 
             $dataAllyRank['points'] = (string)$allyRankXml[0]['score']; /// strint car possible perte d info bigint
