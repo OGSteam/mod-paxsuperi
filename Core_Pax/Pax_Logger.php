@@ -39,7 +39,6 @@ class Pax_Logger
     public function __construct($debug = false)
     {
         $this->debug = $debug;
-        $this->debug = true;
     }
 
     /**

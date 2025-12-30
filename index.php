@@ -51,6 +51,11 @@ if (isset($pub_admin) && $pub_admin == "1") {
         $pub_temporisation = (int)$pub_temporisation < 1 ? 1 : (int)$pub_temporisation; // sup a 1 s
         $setting->temporisation = (int)$pub_temporisation;
     }
+    if (isset($pub_debug)) {
+        $pub_debug = (int)$pub_debug;
+
+        $setting->debug =  $pub_debug < 2 ? $pub_debug  : 0;
+    }
 }
 
 

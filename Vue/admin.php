@@ -31,7 +31,17 @@
                      Temporisation API <?php echo help("pax_tempo", "Préciser le temps en seconde entre chaque appel"); ?>
                  </td>
                  <td class="tdvalue">
-                     <input type="text" id="temporisation" name="temporisation" maxlength="1" value="<?php echo (int)  $setting->temporisation; ?>" placeholder="1" required="required" />
+                     <input type="text" id="debug" name="temporisation" maxlength="1" value="<?php echo (int)  $setting->temporisation; ?>" placeholder="1" required="required" />
+
+                 </td>
+             </tr>
+
+               <tr>
+                 <td class="tdstat">
+                     Debug <?php echo help("pax_debug", "Ajoute des elements dans les journaux pour debug."); ?>
+                 </td>
+                 <td class="tdvalue">
+                     <input type="text" id="temporisation" name="debug" maxlength="1" value="<?php echo (int)  $setting->debug; ?>" placeholder="0" required="required" />
 
                  </td>
              </tr>
