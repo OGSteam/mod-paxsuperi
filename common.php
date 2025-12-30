@@ -25,6 +25,10 @@ define('MOD_ROOT_CORE_PAX', MOD_ROOT . 'Core_Pax/');
 define('MOD_ROOT_CORE_OGSPY', MOD_ROOT . 'Core_Ogspy/');
 define('MOD_ROOT_CORE_CLASS', MOD_ROOT . 'Class/');
 
+
+define('TYPE_PLANET', 'planet');
+define('TYPE_MOON', 'moon');
+
 // ?toJson=1
 
 // include core pax
@@ -48,6 +52,7 @@ include MOD_ROOT_MODEL . 'Pax_Alliance_Model.php';
 include MOD_ROOT_MODEL . 'Pax_Rankings_Player_Model.php';
 include MOD_ROOT_MODEL . 'Pax_Rankings_Ally_Model.php';
 include MOD_ROOT_MODEL . 'Pax_Astro_Object_Model.php';
+
 
 
 

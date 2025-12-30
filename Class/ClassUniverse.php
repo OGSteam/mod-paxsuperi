@@ -63,7 +63,7 @@ class ClassUniverse extends AbstractClass
             $dataAstro['player_id'] =  $player_id;
             //specifique
             $dataAstro['id'] = (int)$astroObjecttXml[0]['id'];
-            $dataAstro['type']  = 0; // 0=> planete / 1 => lune
+            $dataAstro['type']  = TYPE_PLANET; // 0=> planete / 1 => lune
             $dataAstro['name'] = strval($astroObjecttXml[0]['name']);
 
 
@@ -80,7 +80,7 @@ class ClassUniverse extends AbstractClass
                 $dataAstro['player_id'] =  $player_id;
                 //specifique
                 $dataAstro['id'] = (int)$astroObjecttXml[0]->moon['id'];
-                $dataAstro['type']  = 1; // 0=> planete / 1 => lune
+                $dataAstro['type']  = TYPE_MOON; // 0=> planete / 1 => lune
                 $dataAstro['name'] = strval($astroObjecttXml[0]->moon['name']);
 
                 $dataAstros[] = $dataAstro;
