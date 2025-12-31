@@ -41,6 +41,13 @@ $state = loadStepperState();
  */
 $stepperResponse = new StepperResponse();
 
+// Réinitialiser le stepper si demandé
+if (isset($pub_action) && $pub_action === 'reset_stepper') {
+    resetStepper();
+    echo json_encode(['success' => true]);
+    exit();
+}
+
 // peut on commencer
 if (! stepperCanStart($state)) {
     return $stepperResponse->setError('Ne peut demarrer.')->send();

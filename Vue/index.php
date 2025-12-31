@@ -54,6 +54,25 @@ $pax_logger->info('Chargement de la vue principale');
     let isRunning = false;
     let stopRequested = false;
 
+    // Fonction pour réinitialiser et démarrer le traitement
+    function resetAndStart() {
+        // Réinitialiser le stepper avant de démarrer
+        $.post('mod/paxsuperi/Core_Pax/Stepper.php', {
+            action: 'reset_stepper'
+        }, function(data) {
+            if (data.success) {
+                // Démarrer le traitement après la réinitialisation
+                processStep();
+            } else {
+                logMessage("Erreur lors de la réinitialisation du stepper.", 'error');
+                $('#start-btn').prop('disabled', false);
+            }
+        }, 'json').fail(function(jqXHR, textStatus, errorThrown) {
+            logMessage("Erreur réseau lors de la réinitialisation: " + textStatus + " - " + errorThrown, 'error');
+            $('#start-btn').prop('disabled', false);
+        });
+    }
+
     // Démarrer le traitement
     $('#start-btn').click(function() {
          $('#log').html('');
@@ -63,7 +82,7 @@ $pax_logger->info('Chargement de la vue principale');
         $('#start-btn').prop('disabled', true);
         $('#progress').css('background-color', '#1ae021ff'); // Vert par defaut / tout va bien se passer
         $('#log').append('<div>Démarrage du traitement...</div>');
-        processStep();
+        resetAndStart(); // Appelle la fonction de réinitialisation et de démarrage
     });
 
     // Arrêter le traitement
