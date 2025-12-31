@@ -26,10 +26,11 @@ $root          = 'paxsuperi';
 $is_ok         = install_mod($mod_folder);
 
 if ($is_ok) {
-    $setting = new Setting();
+    $setting =Setting::getInstance();
 
     $setting->resetCurrentUse();
     $setting->pays          = 'fr';
     $setting->uni           = '198';
     $setting->temporisation = '1';
+    $setting->debug         = '0';
 }
