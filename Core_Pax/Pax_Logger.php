@@ -9,6 +9,8 @@
  * @license https://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
+require_once __DIR__ . '/Interfaces/LoggerInterface.php';
+
 /**
  * Classe de gestion des logs pour PaxSuperi.
  *
@@ -28,7 +30,7 @@
  * // Log un message d'erreur
  * $logger->error('Message d\'erreur');
  */
-class Pax_Logger
+class Pax_Logger implements LoggerInterface
 {
     /**
      * @var bool Indique si les logs sont activés.
@@ -92,7 +94,7 @@ class Pax_Logger
      * @param string $message Le message à logger.
      * @param array  $context Contexte supplémentaire pour le log.
      */
-    public function info($message, array $context = [])
+    public function info(string $message, array $context = []): void
     {
         if ($this->debug && isset($GLOBALS['log'])) {
             $GLOBALS['log']->info($this->addPrefix($message), $context);
@@ -105,7 +107,7 @@ class Pax_Logger
      * @param string $message Le message à logger.
      * @param array  $context Contexte supplémentaire pour le log.
      */
-    public function warning($message, array $context = [])
+    public function warning(string $message, array $context = []): void
     {
         if ($this->debug && isset($GLOBALS['log'])) {
             $GLOBALS['log']->warning($this->addPrefix($message), $context);
@@ -118,7 +120,7 @@ class Pax_Logger
      * @param string $message Le message à logger.
      * @param array  $context Contexte supplémentaire pour le log.
      */
-    public function error($message, array $context = [])
+    public function error(string $message, array $context = []): void
     {
         if ($this->debug && isset($GLOBALS['log'])) {
             $GLOBALS['log']->error($this->addPrefix($message), $context);
@@ -131,7 +133,7 @@ class Pax_Logger
      * @param string $message Le message à logger.
      * @param array  $context Contexte supplémentaire pour le log.
      */
-    public function debug($message, array $context = [])
+    public function debug(string $message, array $context = []): void
     {
         if ($this->debug && isset($GLOBALS['log'])) {
             $GLOBALS['log']->debug($this->addPrefix($message), $context);

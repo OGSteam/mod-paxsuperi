@@ -63,9 +63,9 @@ class AbstractClass
      *
      * @param string $endpoint Point de terminaison de l'API pour recuperer les donnees.
      */
-    public function __construct(string $endpoint)
+    public function __construct(string $endpoint, ?Container $container = null)
     {
-        $this->setting  = Setting::getInstance();
+        $this->setting  = ($container ?? $GLOBALS['pax_container'])->make(Setting::class);
         $this->response = new StepperResponse();
         $this->endpoint = $endpoint;
     }
@@ -88,7 +88,7 @@ class AbstractClass
         $uni           = (int) $this->setting->uni;
         $temporisation = (int) $this->setting->temporisation;
 
-        $xmlManager = new XmlManager($pays, $uni);
+        $xmlManager = new XmlManager($pays, $uni, $GLOBALS['pax_container']);
         $endpoints  = Constant::getEndpoint();
 
         if (! $this->isValidRequestEndpoint()) {
@@ -132,7 +132,7 @@ class AbstractClass
         $pays = $this->setting->pays;
         $uni  = (int) $this->setting->uni;
 
-        $xmlManager = new XmlManager($pays, $uni);
+        $xmlManager = new XmlManager($pays, $uni, $GLOBALS['pax_container']);
         $endpoints  = Constant::getEndpoint();
 
         if (! $this->isValidRequestEndpoint()) {

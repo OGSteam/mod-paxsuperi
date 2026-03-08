@@ -26,7 +26,7 @@ $root          = 'paxsuperi';
 $is_ok         = install_mod($mod_folder);
 
 if ($is_ok) {
-    $setting =Setting::getInstance();
+    $setting = $GLOBALS['pax_container']->make(SettingInterface::class);
 
     $setting->resetCurrentUse();
     $setting->pays          = 'fr';

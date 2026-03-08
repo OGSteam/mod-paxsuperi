@@ -19,14 +19,14 @@ if (! defined('IN_SPYOGAME')) {
  */
 include_once 'mod/paxsuperi/common.php';
 
-global $pax_logger;
+global $pax_logger, $pax_container;
 $pax_logger->info('Chargement de la page principale de PaxSuperi');
 
 require_once 'views/page_header.php';
 include MOD_ROOT_VUE . 'page_header_mod.php';
 include MOD_ROOT_VUE . 'page_menu_mod.php';
 
-$setting = Setting::getInstance();
+$setting = $pax_container->make(SettingInterface::class);
 $pax_logger->debug('Paramètres chargés: uni=' . $setting->uni . ', pays=' . $setting->pays);
 
 // / formulaire admin

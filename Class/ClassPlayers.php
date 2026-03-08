@@ -47,7 +47,7 @@ class ClassPlayers extends AbstractClass
         $uni  = (int) $this->setting->uni;
         $pax_logger->debug('Récupération des données pour le pays: ' . $pays . ' et l\'univers: ' . $uni);
 
-        $xmlManager       = new XmlManager($pays, $uni);
+        $xmlManager       = new XmlManager($pays, $uni, $GLOBALS['pax_container']);
         $playersXmlString = $xmlManager->getLocalXml($this->endpoint);
         $playersXml       = simplexml_load_string($playersXmlString);
         $pax_logger->info('Données XML des joueurs chargées avec succès');

@@ -21,9 +21,19 @@ include 'common.php';
 include_once 'mod/paxsuperi/common.php';
 
 /**
- * @var Setting $setting Instance des parametres de configuration.
+ * @var Container $container Container DI global.
  */
-$setting = Setting::getInstance();
+$container = $GLOBALS['pax_container'];
+
+/**
+ * @var SettingInterface $setting Instance des parametres de configuration.
+ */
+$setting = $container->make(SettingInterface::class);
+
+/**
+ * @var LoggerInterface $logger Instance du logger.
+ */
+$logger = $container->make(LoggerInterface::class);
 
 /**
  * @var array $state Etat actuel du stepper.

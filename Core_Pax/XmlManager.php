@@ -13,6 +13,8 @@ if (! defined('IN_SPYOGAME')) {
     exit('Hacking attempt');
 }
 
+require_once __DIR__ . '/Interfaces/XmlManagerInterface.php';
+
 /**
  * Classe pour la gestion des fichiers XML.
  *
@@ -21,7 +23,7 @@ if (! defined('IN_SPYOGAME')) {
  *
  * @category   PaxSuperi
  */
-class XmlManager
+class XmlManager implements XmlManagerInterface
 {
     /**
      * @var string Chemin où stocker les fichiers XML.
@@ -39,15 +41,24 @@ class XmlManager
     private string $uni;
 
     /**
+     * @var Container|null Container DI.
+     */
+    private ?Container $container = null;
+
+    /**
      * Constructeur de la classe.
      *
      * @param string      $pays           Code du pays (ex: 'fr').
      * @param string      $uni            Numéro de l'univers (ex: '123').
-     * @param string|null $folderSavePath Chemin où stocker les fichiers XML (ex: 'storage/').
+     * @param string|Container|null $folderSavePath Chemin où stocker les fichiers XML ou container DI.
      *                                    Si null, utilise MOD_ROOT_XML.
      */
-    public function __construct(string $pays, string $uni, ?string $folderSavePath = null)
+    public function __construct(string $pays, string $uni, $folderSavePath = null)
     {
+        if ($folderSavePath instanceof Container) {
+            $this->container = $folderSavePath;
+            $folderSavePath = null;
+        }
         if ($folderSavePath === null) {
             $folderSavePath = MOD_ROOT_XML;
         }
@@ -171,6 +182,17 @@ class XmlManager
     private function saveToFile(string $filename, string $content): void
     {
         file_put_contents($this->folderSavePath . $filename, $content);
+    }
+
+    /**
+     * Récupère le chemin du fichier XML.
+     *
+     * @param string $constantName Nom de la constante
+     * @return string Chemin complet du fichier
+     */
+    public function getFilePath(string $constantName): string
+    {
+        return $this->folderSavePath . $this->getFilename($constantName);
     }
 
     /**

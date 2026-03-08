@@ -13,6 +13,8 @@ if (! defined('IN_SPYOGAME')) {
     exit('Hacking attempt');
 }
 
+require_once __DIR__ . '/Interfaces/SettingInterface.php';
+
 /**
  * Classe pour la gestion des parametres de configuration.
  *
@@ -33,7 +35,7 @@ if (! defined('IN_SPYOGAME')) {
  * // Modifier un parametre de configuration
  * $setting->pays = 'fr';
  */
-class Setting
+class Setting implements SettingInterface
 {
     /**
      * @var Setting|null Instance unique de la classe (singleton).
@@ -136,7 +138,7 @@ class Setting
      * Cette methode reinitialise les parametres de configuration
      * qui ne sont pas essentiels au fonctionnement du module.
      */
-    public function resetCurrentUse()
+    public function resetCurrentUse(): void
     {
         $tabAllowedConf = array_diff($this->allowedConf, $this->allowedConfMod);
 
@@ -156,7 +158,7 @@ class Setting
      *
      * @return mixed|null Valeur du parametre de configuration ou null si le parametre n'existe pas.
      */
-    public function __get($name)
+    public function __get(string $name): mixed
     {
         return $this->datas[$name] ?? null;
     }
@@ -172,7 +174,7 @@ class Setting
      *
      * @throws Exception Si le parametre de configuration n'est pas autorise.
      */
-    public function __set($name, $value)
+    public function __set(string $name, mixed $value): void
     {
         if (! in_array($name, $this->allowedConf, true)) {
             throw new Exception("setting non autorisé  : {$name}");

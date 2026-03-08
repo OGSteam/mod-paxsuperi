@@ -72,7 +72,7 @@ abstract class ClassAlliances_rank extends AbstractClass
         $allyPlayerCount = $this->modelPlayer->get_player_count_by_ally();
         $pax_logger->info('Recuperation du nombre de joueurs par alliance');
 
-        $xmlManager     = new XmlManager($pays, $uni);
+        $xmlManager     = new XmlManager($pays, $uni, $GLOBALS['pax_container']);
         $allyRankString = $xmlManager->getLocalXml($this->endpoint);
         $allysRankXml   = simplexml_load_string($allyRankString);
         $pax_logger->info('Donnees XML des classements des alliances chargees avec succes');

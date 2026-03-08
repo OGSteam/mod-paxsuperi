@@ -47,7 +47,7 @@ class ClassAlliances extends AbstractClass
         $uni  = (int) $this->setting->uni;
         $pax_logger->debug('Récupération des données pour le pays: ' . $pays . ' et l\'univers: ' . $uni);
 
-        $xmlManager         = new XmlManager($pays, $uni);
+        $xmlManager         = new XmlManager($pays, $uni, $GLOBALS['pax_container']);
         $alliancesXmlString = $xmlManager->getLocalXml($this->endpoint);
         $alliancesXml       = simplexml_load_string($alliancesXmlString);
         $pax_logger->info('Données XML des alliances chargées avec succès');

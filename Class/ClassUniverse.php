@@ -64,7 +64,7 @@ class ClassUniverse extends AbstractClass
         $uni  = (int) $this->setting->uni;
         $pax_logger->debug('Recuperation des donnees pour le pays: ' . $pays . ' et l\'univers: ' . $uni);
 
-        $xmlManager        = new XmlManager($pays, $uni);
+        $xmlManager        = new XmlManager($pays, $uni, $GLOBALS['pax_container']);
         $universeXmlString = $xmlManager->getLocalXml($this->endpoint);
         $universeXml       = simplexml_load_string($universeXmlString);
         $pax_logger->info('Donnees XML de l\'univers chargees avec succes');

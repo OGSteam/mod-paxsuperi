@@ -69,7 +69,7 @@ abstract class ClassPlayers_rank extends AbstractClass
         $uni  = (int) $this->setting->uni;
         $pax_logger->debug('Recuperation des donnees pour le pays: ' . $pays . ' et l\'univers: ' . $uni);
 
-        $xmlManager        = new XmlManager($pays, $uni);
+        $xmlManager        = new XmlManager($pays, $uni, $GLOBALS['pax_container']);
         $playersRankString = $xmlManager->getLocalXml($this->endpoint);
         $playersRankXml    = simplexml_load_string($playersRankString);
         $pax_logger->info('Donnees XML des classements des joueurs chargees avec succes');
