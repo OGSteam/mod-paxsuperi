@@ -48,16 +48,16 @@ class XmlManager implements XmlManagerInterface
     /**
      * Constructeur de la classe.
      *
-     * @param string      $pays           Code du pays (ex: 'fr').
-     * @param string      $uni            Numéro de l'univers (ex: '123').
-     * @param string|Container|null $folderSavePath Chemin où stocker les fichiers XML ou container DI.
-     *                                    Si null, utilise MOD_ROOT_XML.
+     * @param string                $pays           Code du pays (ex: 'fr').
+     * @param string                $uni            Numéro de l'univers (ex: '123').
+     * @param Container|string|null $folderSavePath Chemin où stocker les fichiers XML ou container DI.
+     *                                              Si null, utilise MOD_ROOT_XML.
      */
     public function __construct(string $pays, string $uni, $folderSavePath = null)
     {
         if ($folderSavePath instanceof Container) {
             $this->container = $folderSavePath;
-            $folderSavePath = null;
+            $folderSavePath  = null;
         }
         if ($folderSavePath === null) {
             $folderSavePath = MOD_ROOT_XML;
@@ -136,7 +136,7 @@ class XmlManager implements XmlManagerInterface
         $timestamp = $matches[1] ?? 0;
 
         if (Constant::getCst()[$constantName]['isRank']) {
-            $timestamp = $this->formatage_timestamp_for_rank($timestamp);
+            $timestamp = Pax_Helper::formatageTimestampForRank((int) $timestamp);
         }
 
         $validity = Constant::getCst()[$constantName]['validity'] * 3600; // Convertit les heures en secondes
@@ -188,6 +188,7 @@ class XmlManager implements XmlManagerInterface
      * Récupère le chemin du fichier XML.
      *
      * @param string $constantName Nom de la constante
+     *
      * @return string Chemin complet du fichier
      */
     public function getFilePath(string $constantName): string
@@ -217,26 +218,5 @@ class XmlManager implements XmlManagerInterface
         if (! file_exists($this->folderSavePath)) {
             mkdir($this->folderSavePath, 0755, true);
         }
-    }
-
-    private function formatage_timestamp_for_rank($time)
-    {
-        // / il faut garder le format ogspy ( toutes les 8 heeures ... ) )
-        $temp = getdate($time);
-
-        // on format la date
-        $temp['seconds'] = 0;
-        $temp['minutes'] = 0;
-        if ($temp['hours'] >= 0 && $temp['hours'] < 8) {
-            $temp['hours'] = 0;
-        }
-        if ($temp['hours'] >= 8 && $temp['hours'] < 16) {
-            $temp['hours'] = 8;
-        }
-        if ($temp['hours'] >= 16 && $temp['hours'] < 24) {
-            $temp['hours'] = 16;
-        }
-
-        return mktime($temp['hours'], $temp['minutes'], $temp['seconds'], $temp['mon'], $temp['mday'], $temp['year']);
     }
 }

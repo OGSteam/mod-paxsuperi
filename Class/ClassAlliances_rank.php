@@ -77,7 +77,7 @@ abstract class ClassAlliances_rank extends AbstractClass
         $allysRankXml   = simplexml_load_string($allyRankString);
         $pax_logger->info('Donnees XML des classements des alliances chargees avec succes');
         // date
-        $datadate = formatage_timestamp_for_rank((int) $allysRankXml->attributes()->timestamp);
+        $datadate = Pax_Helper::formatageTimestampForRank((int) $allysRankXml->attributes()->timestamp);
         $pax_logger->debug('Timestamp formate pour les classements: ' . $datadate);
 
         // tableau Ally / count(player)

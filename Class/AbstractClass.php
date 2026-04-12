@@ -158,12 +158,14 @@ class AbstractClass
      *
      * @throws Exception Si une erreur survient lors du traitement.
      */
-    public function traitement()
+    public function traitement(): StepperResponse
     {
-        if ($this->isValidRequestEndpoint()) {
+        if (! $this->isValidRequestEndpoint()) {
+            return $this->response;
         }
+
         $this->response->setError('La fonction traitement de ' . $this->endpoint . ' n\'existe pas.');
-        $this->response->setMessage('Lafonction traitement de   ' . $this->endpoint . ' n\'existe pas.');
+        $this->response->setMessage('La fonction traitement de ' . $this->endpoint . ' n\'existe pas.');
 
         return $this->response;
     }

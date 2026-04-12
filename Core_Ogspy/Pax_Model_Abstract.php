@@ -219,11 +219,11 @@ abstract class Pax_Model_Abstract extends Model_Abstract
         $pax_logger->info('Traitement  de ' . count($datas) . ' entites dans la table ' . $this->table);
         $pax_logger->debug('Preparation de la requete SQL pour l\'enregistrement des donnees');
 
-        // Si pas de data à traiter, retourne false
+        // Si pas de data à traiter
         if (empty($datas)) {
             $pax_logger->warning('Aucune donnee a enregistrer');
 
-            return false;
+            return '';
         }
 
         $values               = [];

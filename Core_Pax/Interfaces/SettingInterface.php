@@ -4,9 +4,9 @@
  * OGSPY - Mod PAx Superi
  *
  * @package [Mod] Pax Superi
- * @author Mistral Vibe
- * @copyright Copyright &copy; 2024, https://ogsteam.eu/
- * @license https://source.org/licenses/gpl-license.php GNU Public License
+ * @author Machine
+ * @copyright Copyright &copy; 2016, https://ogsteam.eu/
+ * @license https://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
 if (! defined('IN_SPYOGAME')) {
@@ -22,6 +22,7 @@ interface SettingInterface
      * Récupère un paramètre de configuration.
      *
      * @param string $name Nom du paramètre
+     *
      * @return mixed Valeur du paramètre
      */
     public function __get(string $name): mixed;
@@ -29,9 +30,10 @@ interface SettingInterface
     /**
      * Définit un paramètre de configuration.
      *
-     * @param string $name Nom du paramètre
-     * @param mixed $value Valeur du paramètre
-     * @throws \Exception Si le paramètre n'est pas autorisé
+     * @param string $name  Nom du paramètre
+     * @param mixed  $value Valeur du paramètre
+     *
+     * @throws Exception Si le paramètre n'est pas autorisé
      */
     public function __set(string $name, mixed $value): void;
 

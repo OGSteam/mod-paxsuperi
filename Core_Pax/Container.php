@@ -4,8 +4,8 @@
  * OGSPY - Mod PAx Superi
  *
  * @package [Mod] Pax Superi
- * @author Mistral Vibe
- * @copyright Copyright &copy; 2024, https://ogsteam.eu/
+ * @author Machine
+ * @copyright Copyright &copy; 2016, https://ogsteam.eu/
  * @license https://opensource.org/licenses/gpl-license.php GNU Public License
  */
 
@@ -34,7 +34,7 @@ class Container
     /**
      * Enregistre un service dans le container.
      *
-     * @param string $abstract Nom abstrait du service (interface ou classe)
+     * @param string   $abstract Nom abstrait du service (interface ou classe)
      * @param callable $concrete Fonction de création du service
      */
     public function bind(string $abstract, callable $concrete): void
@@ -45,27 +45,29 @@ class Container
     /**
      * Enregistre un service singleton dans le container.
      *
-     * @param string $abstract Nom abstrait du service
+     * @param string   $abstract Nom abstrait du service
      * @param callable $concrete Fonction de création du service
      */
     public function singleton(string $abstract, callable $concrete): void
     {
-        $this->services[$abstract] = $concrete;
+        $this->services[$abstract]  = $concrete;
         $this->instances[$abstract] = null;
     }
 
     /**
      * Résout et retourne une instance du service.
      *
-     * @param string $abstract Nom du service à résoudre
-     * @param array $parameters Paramètres optionnels pour la création
+     * @param string $abstract   Nom du service à résoudre
+     * @param array  $parameters Paramètres optionnels pour la création
+     *
      * @return object Instance du service
-     * @throws \RuntimeException Si le service n'est pas trouvé
+     *
+     * @throws RuntimeException Si le service n'est pas trouvé
      */
     public function make(string $abstract, array $parameters = []): object
     {
-        if (!isset($this->services[$abstract])) {
-            throw new \RuntimeException("Service {$abstract} not found in container.");
+        if (! isset($this->services[$abstract])) {
+            throw new RuntimeException("Service {$abstract} not found in container.");
         }
 
         // Retourne l'instance singleton si elle existe
@@ -88,6 +90,7 @@ class Container
      * Vérifie si un service est enregistré.
      *
      * @param string $abstract Nom du service
+     *
      * @return bool True si le service existe
      */
     public function has(string $abstract): bool
@@ -100,7 +103,7 @@ class Container
      */
     public function reset(): void
     {
-        $this->services = [];
+        $this->services  = [];
         $this->instances = [];
     }
 }

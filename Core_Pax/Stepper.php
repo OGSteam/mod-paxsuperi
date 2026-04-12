@@ -55,6 +55,7 @@ $stepperResponse = new StepperResponse();
 if (isset($pub_action) && $pub_action === 'reset_stepper') {
     resetStepper();
     echo json_encode(['success' => true]);
+
     exit();
 }
 

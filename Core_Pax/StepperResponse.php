@@ -31,7 +31,7 @@ class StepperResponse
      * telles que le statut de succes, les messages, la progression,
      * l'etat de completion et les erreurs.
      */
-    private $data = [
+    private array $data = [
         'success'  => true,
         'message'  => '',
         'progress' => [
@@ -110,7 +110,7 @@ class StepperResponse
             'total_steps'  => $totalSteps,
         ];
 
-        if ((int) $currentStep >= (int) $totalSteps) {
+        if ($currentStep >= $totalSteps && $totalSteps > 0) {
             $pax_logger->info('Traitement marque comme termine');
             $this->setCompleted();
         }
@@ -146,7 +146,7 @@ class StepperResponse
      * Elle marque egalement la reponse comme echouee en definissant
      * le statut de succes a false.
      *
-     * @param string $error Message d'erreur a definir.
+     * @param string $error Message d'error a definir.
      *
      * @return self Instance courante pour le chainage de methodes.
      */
@@ -195,7 +195,9 @@ class StepperResponse
         $pax_logger->info('Envoi de la reponse JSON au client');
         $pax_logger->debug('Donnees de reponse: ' . json_encode($this->data));
 
-        header('Content-Type: application/json');
+        if (! headers_sent()) {
+            header('Content-Type: application/json');
+        }
         echo json_encode($this->data);
 
         exit;

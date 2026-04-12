@@ -74,7 +74,7 @@ abstract class ClassPlayers_rank extends AbstractClass
         $playersRankXml    = simplexml_load_string($playersRankString);
         $pax_logger->info('Donnees XML des classements des joueurs chargees avec succes');
         // date
-        $datadate = formatage_timestamp_for_rank((int) $playersRankXml->attributes()->timestamp);
+        $datadate = Pax_Helper::formatageTimestampForRank((int) $playersRankXml->attributes()->timestamp);
         $pax_logger->debug('Timestamp formate pour les classements: ' . $datadate);
 
         // <player position="5" id="101706" score="1414116972"/>
